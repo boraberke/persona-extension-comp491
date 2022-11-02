@@ -1,1 +1,1 @@
-# persona-extension-comp491
+# Hansel 🍪 (also known as Persona Extension)
