@@ -23,7 +23,7 @@ def brows_bot(driver_path):
     webBrowser.get("http://www.python.org")
     cookies1  = webBrowser.get_cookies();  
     cookies.append(cookies1)
-    return cookie
+    return cookies
 
     # Lets open https://www.bing.com/ in the second tab
     webBrowser.execute_script("window.open('about:blank', 'secondtab');")
