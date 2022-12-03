@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import threading
 import json
+from DoubleThreadMultitab import doubleThreadMultitab
 
 # queries = ["python", "stackoverflow", "github"]
 def findURLsByKeyword(queries):
@@ -49,25 +50,17 @@ def findURLsByKeyword(queries):
 def visitURLs(urlListJson):
     urlList = json.loads(urlListJson)
     allURLs = []
-    driver_path = "chromedriver"
+    driver_path = "/Users/emresafter/persona-extension-comp491/web-crawling/chromedriver"
 
     for url in urlList:
         for link in url['links']:
             allURLs.append(link)
 
-    single_thread_seperate_tab_v1(allURLs, driver_path)
+    doubleThreadMultitab(allURLs, driver_path)
 
 
-def single_thread_seperate_tab_v1(websites, driver_path):
-    cookies = []
-    webBrowser = webdriver.Chrome(driver_path)
-    for count,website in enumerate(websites):
-        webBrowser.execute_script("window.open('about:blank', '{}');".format(str(count) + "tab"))
-        webBrowser.switch_to.window(str(count) + "tab")
-        webBrowser.get(website)
-        cookie = webBrowser.get_cookies();  
-        cookies.append(cookie)
 
 
-queries = ["python", "stackoverflow", "github"]
-visitURLs(findURLsByKeyword(queries))
+
+#queries = ["python", "stackoverflow", "github"]
+#visitURLs(findURLsByKeyword(queries))
