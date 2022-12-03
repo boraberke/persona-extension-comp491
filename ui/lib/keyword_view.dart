@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class KeywordView extends StatefulWidget {
   const KeywordView({Key? key}) : super(key: key);
@@ -23,6 +24,19 @@ class _KeywordViewState extends State<KeywordView> {
     _textFocus = FocusNode();
 
     super.initState();
+  }
+  
+   void sendRequest(String words) async {
+    var uri = 'http://127.0.0.1:8000/?input=${words}';
+    var request = http.Request('GET', Uri.parse(uri));
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
   }
 
   @override
@@ -133,7 +147,7 @@ class _KeywordViewState extends State<KeywordView> {
               ),
               const Padding(padding: EdgeInsets.only(top: 15)),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {sendRequest(_keywordInputController.text);},
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(
