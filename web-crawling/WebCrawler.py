@@ -50,7 +50,7 @@ def findURLsByKeyword(queries):
 def visitURLs(urlListJson):
     urlList = json.loads(urlListJson)
     allURLs = []
-    driver_path = "/Users/emresafter/persona-extension-comp491/web-crawling/chromedriver"
+    driver_path = "../chromedriver"
 
     for url in urlList:
         for link in url['links']:
