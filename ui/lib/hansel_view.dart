@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ui/customization_view.dart';
 import 'package:ui/keyword_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,7 +86,12 @@ class _HanselViewState extends State<HanselView> {
                   // TODO: OR lines and text (include padding in asset)
                   Image.asset('assets/images/or-divider-180x24.png'),
                   ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(builder: (context) => const CustomizationView())
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         elevation: 5,
                         shape: const RoundedRectangleBorder(
