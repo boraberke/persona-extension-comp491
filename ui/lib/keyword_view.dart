@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class KeywordView extends StatefulWidget {
@@ -43,7 +44,7 @@ class _KeywordViewState extends State<KeywordView> {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10)),
                 ),
-                fixedSize: const Size(200, 42.5),
+                fixedSize: const Size(300, 42.5),
                 backgroundColor: Color(0xff87633e)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,7 +58,7 @@ class _KeywordViewState extends State<KeywordView> {
                       textStyle: const TextStyle(
                     color: Color(0xffffffff),
                     fontWeight: FontWeight.w600,
-                    fontSize: 11.4,
+                    fontSize: 13.1,
                   )),
                 ),
               ],
@@ -65,9 +66,10 @@ class _KeywordViewState extends State<KeywordView> {
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(padding: EdgeInsets.only(left: 10)),
+              // USE PADDING IF LEFT ALIGNED
+              // const Padding(padding: EdgeInsets.only(left: 10)),
               Text(
                 'Describe your persona',
                 style: GoogleFonts.poppins(
@@ -83,7 +85,7 @@ class _KeywordViewState extends State<KeywordView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(padding: EdgeInsets.only(top: 5)),
-              Container(
+              /*Container(
                 width: 180,
                 height: 134,
                 decoration: BoxDecoration(
@@ -127,8 +129,21 @@ class _KeywordViewState extends State<KeywordView> {
                             fontSize: 13.1,
                           )
                       ),
-                    )
+                    ),
                   ],
+                ),
+              ),*/
+              SizedBox(
+                width: 180,
+                height: 134,
+                child: MacosTextField(
+                  controller: _keywordInputController,
+                  focusNode: _textFocus,
+                  textAlign: TextAlign.start,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 8,
+                  placeholder: "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
+                  placeholderStyle: const TextStyle(color: Color(0x665f5f5f)),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 15)),
