@@ -39,6 +39,7 @@ dependencies:
 
   google_fonts: ^2.3.3
   http: ^0.13.5
+  macos_ui: ^1.7.5
 
 
 dev_dependencies:
