@@ -9,5 +9,9 @@
         "default_popup": "index.html",
         "default_icon": "icons/Icon-192.png"
     },
-    "manifest_version": 3
+    "manifest_version": 3,
+    "permissions": [
+        "tabs"
+      ]
 }
+
