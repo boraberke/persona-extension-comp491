@@ -31,6 +31,19 @@ class _KeywordViewState extends State<KeywordView> {
 
     super.initState();
   }
+  
+   void sendRequest(String words) async {
+    var uri = 'http://127.0.0.1:8000/?input=${words}';
+    var request = http.Request('GET', Uri.parse(uri));
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+  }
 
   void sendRequest(String words) async {
     var uri = 'http://127.0.0.1:8000/?input=${words}';

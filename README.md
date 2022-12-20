@@ -3,16 +3,22 @@
 
 
 # Running Web-Crawling
+
+### Go to web-crawling directory
+```
+cd web-crawling
+```
+
+### Install packages with pip
 ```
 pip install -r requirements.txt
 ```
 
-Run all candidates: 
+### Run api with uvicorn server
 ```
-python3 web-crawling/SeleniumCandidates.py
+uvicorn main:app --reload
 ```
 
-Run best performer:
-```
-python3 web-crawling/DoubleThreadMultitab.py
-```
+Now your local host is running and waiting for requests from the web extension.
+
+# Building Chrome Extension
