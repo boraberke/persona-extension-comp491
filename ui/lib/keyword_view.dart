@@ -62,10 +62,11 @@ class _KeywordViewState extends State<KeywordView> {
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
-      for (var i = 0; i < wordArray.length; i++) {
-        for (var j = 0; j < body.length; j++) {
-          var link = body[wordArray[i]][j];
-          print('word:${wordArray[i]}, link_number: ${j} ,link: ${link}');
+      for (var i = 0; i < body.length; i++) {
+        for (var j = 0; j < body[i]['links'].length; j++) {
+          var link = body[i]['links'][j];
+          print(link);
+          print('word:${body[i]['query']},link: ${link}');
           openWebPage(link);
         }
       }
