@@ -1,11 +1,16 @@
 import 'dart:html';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'dart:html' as html;
+import 'dart:js';
+import 'dart:convert';
 
 class KeywordView extends StatefulWidget {
   const KeywordView({Key? key}) : super(key: key);
@@ -38,6 +43,40 @@ class _KeywordViewState extends State<KeywordView> {
     else {
       print(response.reasonPhrase);
     }
+  }
+
+  void sendRequest(String words) async {
+    var uri = 'http://127.0.0.1:8000/?input=${words}';
+    var request = http.Request('GET', Uri.parse(uri));
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  void getWebsitesToSearch(String words) async {
+    var uri = 'https://6cmpd1.deta.dev/?input=${words}';
+    var wordArray = words.split(' ');
+    var response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      for (var i = 0; i < wordArray.length; i++) {
+        for (var j = 0; j < body.length; j++) {
+          var link = body[wordArray[i]][j];
+          print('word:${wordArray[i]}, link_number: ${j} ,link: ${link}');
+          openWebPage(link);
+        }
+      }
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  void openWebPage(String url) {
+    var options = new JsObject.jsify({'url': url, 'active': true});
+    context['chrome']['tabs'].callMethod('create', [options]);
   }
 
   @override
@@ -87,7 +126,7 @@ class _KeywordViewState extends State<KeywordView> {
               Text(
                 'Describe your persona',
                 style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
+                    textStyle: const TextStyle(
                   color: Color(0xff87633e),
                   fontWeight: FontWeight.w600,
                   fontSize: 13.1,
@@ -117,33 +156,31 @@ class _KeywordViewState extends State<KeywordView> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 8,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Color(0x00000000)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xffffffff),
-                            spreadRadius: -3.0,
-                            blurRadius: 3.0,
-                          )
-                        ]
-                      ),
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: Color(0x00000000)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xffffffff),
+                              spreadRadius: -3.0,
+                              blurRadius: 3.0,
+                            )
+                          ]),
                       cursorColor: Color(0xff000000),
-                      placeholder: "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
+                      placeholder:
+                          "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
                       placeholderStyle: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            color: Color(0x665f5f5f),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13.1,
-                          )
-                      ),
+                        color: Color(0x665f5f5f),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13.1,
+                      )),
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            color: Color(0xff5f5f5f),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13.1,
-                          )
-                      ),
-                    ),
+                        color: Color(0xff5f5f5f),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13.1,
+                      )),
+                    )
                   ],
                 ),
               ),*/
@@ -156,13 +193,16 @@ class _KeywordViewState extends State<KeywordView> {
                   textAlign: TextAlign.start,
                   keyboardType: TextInputType.multiline,
                   maxLines: 8,
-                  placeholder: "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
+                  placeholder:
+                      "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
                   placeholderStyle: const TextStyle(color: Color(0x665f5f5f)),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 15)),
               ElevatedButton(
-                  onPressed: () {sendRequest(_keywordInputController.text);},
+                  onPressed: () {
+                    getWebsitesToSearch(_keywordInputController.text);
+                  },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(
@@ -186,8 +226,7 @@ class _KeywordViewState extends State<KeywordView> {
                         )),
                       ),
                     ],
-                  )
-              )
+                  ))
             ],
           )
         ],
