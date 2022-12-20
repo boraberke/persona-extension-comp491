@@ -1,0 +1,1 @@
+{"id":"485d7b6e-50ff-4e60-b5ff-5e8a3da5cfd5","space":33322,"runtime":"python3.9","name":"first_micro","path":"6cmpd1","project":"a0o9haud","account":"144798365827","region":"eu-central-1","deps":["fastapi==0.88.0","requests==2.28.1","beautifulsoup4==4.11.1","bs4==0.0.1","lxml==4.9.1","openai==0.25.0"],"envs":["OPEN_API_SECRET_KEY"],"public":true,"log_level":"debug","cron":""}
