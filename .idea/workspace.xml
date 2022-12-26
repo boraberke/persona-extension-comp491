@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="821ebf5e-fdff-4c55-9bf3-960cf2fe648b" name="Changes" comment="macos_ui package added to xml">
+      <change afterPath="$PROJECT_DIR$/ui/assets/saved_personas.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/ios/Podfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/lib/Persona.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/lib/saved_personas_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/lib/customization_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/ui/lib/customization_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/lib/hansel_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/ui/lib/hansel_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/lib/keyword_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/ui/lib/keyword_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Tag Library Descriptor" />
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="2Gz4JPB9NQz2LEbskfU1fGaI79k" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.idea" />
+      <recent name="$PROJECT_DIR$/ui/lib" />
+      <recent name="$PROJECT_DIR$/ui/lib/web-crawler" />
+      <recent name="$PROJECT_DIR$/ui/web/icons" />
+      <recent name="$PROJECT_DIR$/ui/web" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/ui/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="821ebf5e-fdff-4c55-9bf3-960cf2fe648b" name="Changes" comment="" />
+      <created>1667378007607</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667378007607</updated>
+      <workItem from="1667378009960" duration="94000" />
+      <workItem from="1667378138895" duration="210000" />
+      <workItem from="1667378487373" duration="2600000" />
+      <workItem from="1667467898940" duration="25581000" />
+      <workItem from="1669273745963" duration="622000" />
+      <workItem from="1669280997326" duration="2733000" />
+      <workItem from="1669314594239" duration="1151000" />
+      <workItem from="1669315768116" duration="101000" />
+      <workItem from="1669315891206" duration="1955000" />
+      <workItem from="1670862442832" duration="26906000" />
+      <workItem from="1671107420223" duration="4474000" />
+      <workItem from="1671114921303" duration="11782000" />
+      <workItem from="1671433303122" duration="659000" />
+      <workItem from="1671560800823" duration="816000" />
+      <workItem from="1671605535673" duration="355000" />
+      <workItem from="1671605907998" duration="300000" />
+      <workItem from="1671606226441" duration="260000" />
+      <workItem from="1671606497798" duration="235000" />
+      <workItem from="1671606756369" duration="41000" />
+      <workItem from="1671606807933" duration="72259000" />
+    </task>
+    <task id="LOCAL-00001" summary="ui initial commit">
+      <created>1667381063278</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667381063278</updated>
+    </task>
+    <task id="LOCAL-00002" summary="ui keyword input implemented">
+      <created>1667507946378</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667507946378</updated>
+    </task>
+    <task id="LOCAL-00003" summary="second page name age location profession">
+      <created>1670948398313</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1670948398313</updated>
+    </task>
+    <task id="LOCAL-00004" summary="second page done">
+      <created>1671145251753</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1671145251753</updated>
+    </task>
+    <task id="LOCAL-00005" summary="macos_ui package added to xml">
+      <created>1671433778792</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1671433778792</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="ui initial commit" />
+    <MESSAGE value="ui keyword input implemented" />
+    <MESSAGE value="second page name age location profession" />
+    <MESSAGE value="second page done" />
+    <MESSAGE value="macos_ui package added to xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="macos_ui package added to xml" />
+  </component>
+</project>

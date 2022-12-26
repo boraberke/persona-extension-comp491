@@ -1,0 +1,15 @@
+{
+	"Name": "Kerem",
+	"Age": "23",
+	"Location": "Istanbul",
+	"Profession": "Student",
+	"Gender": "Male",
+	"Marital Status": "Single",
+	"Education": "Bachelor's in Computer Science",
+	"Income": "<$25,000",
+	"Book Interest": "Andrzej Sapkowski",
+	"Movies TV Interest": "Henry Cavill",
+	"Music Interest": "Ramin Djawadi",
+	"Sport Interest": "Lionel Messi",
+	"Hobby": "FIFA 23"
+}

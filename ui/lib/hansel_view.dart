@@ -121,19 +121,21 @@ class _HanselViewState extends State<HanselView> {
                   ),
                   const Padding(padding: EdgeInsets.only(top: 15)),
                   // TODO: Github Icon Link
-                  IconButton(
-                    onPressed: () async {
-                      Uri url = Uri(
-                          scheme: 'https',
-                          host: 'github.com',
-                          path: '/boraberke/persona-extension-comp491'
-                      );
-                      var urlLaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
-                      if(urlLaunchable){
-                        await launchUrl(url); //launch is from url_launcher package to launch URL
-                      }
-                    },
-                    icon: Image.asset('assets/images/github-icon-20x20.png'),
+                  SizedBox(
+                    child: IconButton(
+                      onPressed: () async {
+                        Uri url = Uri(
+                            scheme: 'https',
+                            host: 'github.com',
+                            path: '/boraberke/persona-extension-comp491'
+                        );
+                        var urlLaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
+                        if(urlLaunchable){
+                          await launchUrl(url); //launch is from url_launcher package to launch URL
+                        }
+                      },
+                      icon: Image.asset('assets/images/github-icon-20x20.png'),
+                    ),
                   ),
                 ],
               ),
