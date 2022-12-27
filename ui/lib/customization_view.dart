@@ -629,6 +629,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                 persona.hobby = hobbyInput;
 
                 // Add the persona to DB
+                // TODO @kerem: Add Machine ID
                 // TODO @emre: Add Persona to User's Persona List
 
                 Navigator.push(

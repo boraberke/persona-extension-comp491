@@ -12,6 +12,7 @@ class SavedPersonasView extends StatefulWidget {
 
 class _SavedPersonasViewState extends State<SavedPersonasView> {
   late List<dynamic> _personas;
+  // TODO @emre: Get user persona list into _personas
 
   final List<Map<String, dynamic>> _personasDemo = [
     {"Name": "Metin"},
@@ -28,11 +29,14 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
   void deletePersona(int index) {
     setState(() {
       _personasDemo.removeAt(index);
+      // TODO @emre: Remove persona from DB
+
     });
   }
 
   void goWithPersona(int index) {
     setState(() {
+      // TODO @emre: Go with selected persona.
 
     });
   }
