@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:macos_ui/macos_ui.dart';
+import 'package:ui/statistics_view.dart';
 
 class SavedPersonasView extends StatefulWidget {
   const SavedPersonasView({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class SavedPersonasView extends StatefulWidget {
 
 class _SavedPersonasViewState extends State<SavedPersonasView> {
   late List<dynamic> _personas;
+
   // TODO @emre: Get user persona list into _personas
 
   final List<Map<String, dynamic>> _personasDemo = [
@@ -30,14 +31,12 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
     setState(() {
       _personasDemo.removeAt(index);
       // TODO @emre: Remove persona from DB
-
     });
   }
 
   void goWithPersona(int index) {
     setState(() {
       // TODO @emre: Go with selected persona.
-
     });
   }
 
@@ -45,7 +44,6 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
   void initState() {
     super.initState();
     _loadPersonas();
-
   }
 
   void _loadPersonas() async {
@@ -112,8 +110,15 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                               Radius.circular(10))),
                                       fixedSize: const Size(160, 40),
                                       backgroundColor: const Color(0xffffead4)),
-                                  onPressed: () => goWithPersona(
-                                      _personasDemo.indexOf(persona)),
+                                  onPressed: () {
+                                    goWithPersona(
+                                        _personasDemo.indexOf(persona));
+                                    Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                const StatisticsView()));
+                                  },
                                   child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -135,7 +140,8 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                           )),
                                         ),
                                       ])),
-                              const Padding(padding: EdgeInsets.only(left: 10.0)),
+                              const Padding(
+                                  padding: EdgeInsets.only(left: 10.0)),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
