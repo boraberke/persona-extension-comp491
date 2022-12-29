@@ -50,21 +50,47 @@ class _KeywordViewState extends State<KeywordView> {
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
-      for (var i = 0; i < body.length; i++) {
-        for (var j = 0; j < body[i]['links'].length; j++) {
-          var link = body[i]['links'][j];
-          print(link);
-          print('word:${body[i]['query']},link: ${link}');
-          openWebPage(link);
-        }
-      }
+      var firstPageLink = body[0]['links'][0];
+      print(firstPageLink);
+      print('word:${body[0]['query']},link: ${firstPageLink}');
+      int screenWidth = context['screen']['availWidth'];
+      int screenHeight = context['screen']['availHeight'];
+      int windowWidth = screenWidth ~/ 2;
+      int windowHeight = screenHeight ~/ 2;
+      int windowLeft = (screenWidth - windowWidth) ~/ 2;
+      int windowTop = (screenHeight - windowHeight) ~/ 2;
+      context['chrome']['windows'].callMethod('create', [
+        JsObject.jsify({
+          'url': firstPageLink,
+          'width': windowWidth,
+          'height': windowHeight,
+          'left': windowLeft,
+          'top': windowTop,
+        }),
+        (JsObject window) {
+          int windowId = window['id'];
+          for (var i = 0; i < body.length; i++) {
+            // first page should be opened in a new window and return the window id.
+            for (var j = 0; j < body[i]['links'].length; j++) {
+              var link = body[i]['links'][j];
+              context['chrome']['tabs'].callMethod('create', [
+                JsObject.jsify({
+                  'windowId': windowId,
+                  'url': link,
+                })
+              ]);
+            }
+          }
+        },
+      ]);
     } else {
       print(response.statusCode);
     }
   }
 
-  void openWebPage(String url) {
-    var options = new JsObject.jsify({'url': url, 'active': true});
+  void openWebPageTab(String url, int windowId) {
+    var options =
+        new JsObject.jsify({'url': url, 'active': false, 'windowId': windowId});
     context['chrome']['tabs'].callMethod('create', [options]);
   }
 
