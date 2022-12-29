@@ -17,6 +17,9 @@ def extractInfoFromTextV2(entity_dict):
             for value_list in potential_entities[key.lower()]:
                 for value in entity_dict[key]:
                     queries.append(str(value) + str(value_list))
+        else:
+            for value in entity_dict[key]:
+                queries.append(str(value))
     
 
     #if queries.length < min_link_threshold: default ekle
