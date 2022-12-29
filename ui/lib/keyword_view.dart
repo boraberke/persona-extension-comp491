@@ -45,7 +45,7 @@ class _KeywordViewState extends State<KeywordView> {
   }
 
   void getWebsitesToSearch(String words) async {
-    var uri = 'https://6cmpd1.deta.dev/?input=${words}';
+    var uri = 'https://370sl8.deta.dev/?input=${words}';
     var wordArray = words.split(' ');
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
