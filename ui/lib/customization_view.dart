@@ -145,31 +145,24 @@ class _CustomizationViewState extends State<CustomizationView> {
                               )
                             ])),
                     const Padding(padding: EdgeInsets.only(top: 10)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Padding(padding: EdgeInsets.only(left: 10)),
                         Text(
                           'Create Persona',
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
-                            color: Color(0xff87633e),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          )),
+                                color: Color(0xff87633e),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              )),
                         ),
-                      ],
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                        const Padding(padding: EdgeInsets.only(top: 5, left: 5)),
                         SizedBox(
-                          width: 250,
                           height: 30,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MacosTextField(
                                 controller: _nameInputController,
@@ -447,10 +440,28 @@ class _CustomizationViewState extends State<CustomizationView> {
                         ),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Text(
+                            'For the fields below, you can specify \nmultiple interests separated by a comma.',
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  color: Color(0xffedbe8e),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 10.0)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -465,8 +476,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
-                            height: 30,
+                            //height: 30,
                             child: MacosTextField(
                               controller: _bookInterestInputController,
                               textAlign: TextAlign.start,
@@ -479,10 +489,10 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -492,12 +502,11 @@ class _CustomizationViewState extends State<CustomizationView> {
                                 textStyle: const TextStyle(
                               color: Color(0xff87633e),
                               fontWeight: FontWeight.w600,
-                              fontSize: 12,
+                              fontSize: 13.1,
                             )),
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _moviesTvInterestInputController,
@@ -511,10 +520,10 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -529,7 +538,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _musicInterestInputController,
@@ -543,10 +551,10 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -561,7 +569,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _sportInterestInputController,
@@ -575,10 +582,10 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -593,7 +600,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _hobbyInputController,
@@ -630,6 +636,7 @@ class _CustomizationViewState extends State<CustomizationView> {
 
                 // Add the persona to DB
                 // TODO @kerem: Add Machine ID
+
                 // TODO @emre: Add Persona to User's Persona List
 
                 Navigator.push(
