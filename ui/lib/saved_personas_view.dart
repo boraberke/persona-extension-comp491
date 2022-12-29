@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ui/statistics_view.dart';
 
 class SavedPersonasView extends StatefulWidget {
-  const SavedPersonasView({Key? key}) : super(key: key);
+  final String accessID;
+
+  const SavedPersonasView({super.key, required this.accessID});
 
   @override
   State<SavedPersonasView> createState() => _SavedPersonasViewState();
