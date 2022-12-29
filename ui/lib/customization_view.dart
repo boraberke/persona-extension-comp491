@@ -7,7 +7,9 @@ import 'package:ui/saved_personas_view.dart';
 import 'Persona.dart';
 
 class CustomizationView extends StatefulWidget {
-  const CustomizationView({Key? key}) : super(key: key);
+  final String accessID;
+
+  const CustomizationView({super.key, required this.accessID});
 
   @override
   State<CustomizationView> createState() => _CustomizationViewState();
@@ -109,6 +111,8 @@ class _CustomizationViewState extends State<CustomizationView> {
                 padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: ListView(
                   children: [
+                    //TODO: change widget below visually
+                    Text(widget.accessID.toString()),
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     ElevatedButton(
                         onPressed: () {
@@ -116,7 +120,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                               context,
                               CupertinoPageRoute(
                                   builder: (context) =>
-                                      const SavedPersonasView()));
+                                      SavedPersonasView(accessID: widget.accessID,)));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -642,7 +646,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => const SavedPersonasView()));
+                        builder: (context) => SavedPersonasView(accessID: widget.accessID,)));
               },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
