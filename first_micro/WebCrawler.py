@@ -2,23 +2,19 @@ from bs4 import BeautifulSoup
 import requests, lxml, json
 import json
 
-
-# list of tuples
-
-#out_ex = [('Ufkun Ozalp', 'PERSON'), ('22 year old', 'DATE'), ('Turkish', 'NORP'), ('New York City', 'GPE'), ('Highway to Hell', 'WORK_OF_ART'), ('Ford', 'ORG'), ('Mustang GT 500', 'PRODUCT')]
-
-
 def extractInfoFromTextV2(entity_dict):
-    potential_entities = {"Location" : [' rental estate',' places to go'], 
+    potential_entities = {
                           "location" : [' rental estate',' places to go'], 
                           "interests" : [' events'],
-                          "Interests" : [' events']}
+                          "nationality" : [' food'],
+                            "product" : [' prices']
+                          }
 
     json_keys = entity_dict.keys()
     queries = []
     for key in json_keys:
-        if key in potential_entities.keys():
-            for value_list in potential_entities[key]:
+        if key.lower() in potential_entities.keys():
+            for value_list in potential_entities[key.lower()]:
                 for value in entity_dict[key]:
                     queries.append(str(value) + str(value_list))
     
@@ -26,7 +22,6 @@ def extractInfoFromTextV2(entity_dict):
     #if queries.length < min_link_threshold: default ekle
     return queries
             
-
 
 
 def extractInfoFromText(tuple_list):
