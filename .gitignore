@@ -3,3 +3,4 @@
 web-crawling/__pycache__/
 .DS_Store
 .env
+persona-micro/__pycache__/
