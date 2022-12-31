@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:ui/customization_view.dart';
 import 'package:ui/keyword_view.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,9 +14,12 @@ class HanselView extends StatefulWidget {
 }
 
 class _HanselViewState extends State<HanselView> {
+  late final TextEditingController _accessIdInputController;
 
   @override
   void initState() {
+    super.initState();
+    _accessIdInputController = TextEditingController();
 
   }
 
@@ -23,16 +27,16 @@ class _HanselViewState extends State<HanselView> {
   Widget build(BuildContext context) {
     // TODO: Add the UI code here
     return CupertinoPageScaffold(
-      backgroundColor: Color(0xfffff6ec),
+      backgroundColor: const Color(0xfffff6ec),
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 10, left: 10)),
+              const Padding(padding: EdgeInsets.only(top: 10, left: 10)),
               Row(
                 children: [
                   //TODO: Logo
-                  Padding(padding: EdgeInsets.only(left: 10)),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
                   Image.asset('assets/images/hansel30x30.png'),
-                  Padding(padding: EdgeInsets.only(left: 10)),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
                   Text(
                     'Hansel',
                     style: GoogleFonts.poppins(
@@ -44,7 +48,36 @@ class _HanselViewState extends State<HanselView> {
                   ),
                 ],
               ),
-              const Padding(padding: EdgeInsets.only(top: 20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Access ID:',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Color(0xff87633e),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.1,
+                        )),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 5)),
+                  SizedBox(
+                      width: 80,
+                      height: 30,
+                      child: MacosTextField(
+                        controller: _accessIdInputController,
+                        textAlign: TextAlign.start,
+                        keyboardType: TextInputType.text,
+                        maxLines: 1,
+                        placeholder: "mtsezgin",
+                        placeholderStyle: const TextStyle(
+                          color: Color(0x665f5f5f),
+                        ),
+                      )),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.only(top: 5)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,8 +95,8 @@ class _HanselViewState extends State<HanselView> {
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                         fixedSize: const Size(180, 78),
-                        backgroundColor: Color(0xff87633e),
-                        shadowColor: Color(0xff87633e),
+                        backgroundColor: const Color(0xff87633e),
+                        shadowColor: const Color(0xff87633e),
                       ),
                       child: Column(
                         children: [
@@ -87,10 +120,13 @@ class _HanselViewState extends State<HanselView> {
                   Image.asset('assets/images/or-divider-180x24.png'),
                   ElevatedButton(
                       onPressed: (){
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(builder: (context) => const CustomizationView())
-                        );
+                        if (_accessIdInputController.text.isNotEmpty) {
+                          String accessID = _accessIdInputController.text;
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(builder: (context) => CustomizationView(accessID: accessID,))
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 5,
@@ -98,8 +134,8 @@ class _HanselViewState extends State<HanselView> {
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                         fixedSize: const Size(180, 78),
-                        backgroundColor: Color(0xffedbe8e),
-                        shadowColor: Color(0xffedbe8e),
+                        backgroundColor: const Color(0xffedbe8e),
+                        shadowColor: const Color(0xffedbe8e),
                       ),
                       child: Column(
                         // TODO: Persona Customization Logo and Text
@@ -119,21 +155,22 @@ class _HanselViewState extends State<HanselView> {
                         ],
                       )
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 15)),
                   // TODO: Github Icon Link
-                  IconButton(
-                    onPressed: () async {
-                      Uri url = Uri(
-                          scheme: 'https',
-                          host: 'github.com',
-                          path: '/boraberke/persona-extension-comp491'
-                      );
-                      var urlLaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
-                      if(urlLaunchable){
-                        await launchUrl(url); //launch is from url_launcher package to launch URL
-                      }
-                    },
-                    icon: Image.asset('assets/images/github-icon-20x20.png'),
+                  SizedBox(
+                    child: IconButton(
+                      onPressed: () async {
+                        Uri url = Uri(
+                            scheme: 'https',
+                            host: 'github.com',
+                            path: '/boraberke/persona-extension-comp491'
+                        );
+                        var urlLaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
+                        if(urlLaunchable){
+                          await launchUrl(url); //launch is from url_launcher package to launch URL
+                        }
+                      },
+                      icon: Image.asset('assets/images/github-icon-20x20.png'),
+                    ),
                   ),
                 ],
               ),

@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:ui/saved_personas_view.dart';
+import 'Persona.dart';
 
 class CustomizationView extends StatefulWidget {
-  const CustomizationView({Key? key}) : super(key: key);
+  final String accessID;
+
+  const CustomizationView({super.key, required this.accessID});
 
   @override
   State<CustomizationView> createState() => _CustomizationViewState();
@@ -20,10 +24,14 @@ class _CustomizationViewState extends State<CustomizationView> {
   String ageInput = '';
   String locationInput = '';
   String professionInput = '';
-  String genderInput = 'Male';
-  String maritalStatusInput = 'Married';
-  String educationInput = 'High School';
-  String incomeInput = '<\$25,000';
+  late final TextEditingController _genderInputController;
+  late final TextEditingController _maritalStatusInputController;
+  late final TextEditingController _educationInputController;
+  late final TextEditingController _incomeInputController;
+  String genderInput = '';
+  String maritalStatusInput = '';
+  String educationInput = '';
+  String incomeInput = '';
   late final TextEditingController _bookInterestInputController;
   late final TextEditingController _moviesTvInterestInputController;
   late final TextEditingController _musicInterestInputController;
@@ -41,6 +49,11 @@ class _CustomizationViewState extends State<CustomizationView> {
     _ageInputController = TextEditingController(text: ageInput);
     _locationInputController = TextEditingController(text: locationInput);
     _professionInputController = TextEditingController(text: professionInput);
+    _genderInputController = TextEditingController(text: genderInput);
+    _maritalStatusInputController =
+        TextEditingController(text: maritalStatusInput);
+    _educationInputController = TextEditingController(text: educationInput);
+    _incomeInputController = TextEditingController(text: incomeInput);
     _bookInterestInputController =
         TextEditingController(text: bookInterestInput);
     _moviesTvInterestInputController =
@@ -58,7 +71,7 @@ class _CustomizationViewState extends State<CustomizationView> {
   Widget build(BuildContext context) {
     // TODO: Add the UI code here
     return CupertinoPageScaffold(
-      backgroundColor: Color(0xfffff6ec),
+      backgroundColor: const Color(0xfffff6ec),
       child: Column(
         children: [
           ElevatedButton(
@@ -73,7 +86,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       bottomRight: Radius.circular(10)),
                 ),
                 fixedSize: const Size(300, 42.5),
-                backgroundColor: Color(0xffedbe8e)),
+                backgroundColor: const Color(0xffedbe8e)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,16 +111,24 @@ class _CustomizationViewState extends State<CustomizationView> {
                 padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: ListView(
                   children: [
+                    //TODO: change widget below visually
+                    Text(widget.accessID.toString()),
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) =>
+                                      SavedPersonasView(accessID: widget.accessID,)));
+                        },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             fixedSize: const Size(180, 35),
-                            backgroundColor: Color(0xffffead4)),
+                            backgroundColor: const Color(0xffffead4)),
                         child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,37 +143,30 @@ class _CustomizationViewState extends State<CustomizationView> {
                                 )),
                               ),
                               const Icon(
-                                CupertinoIcons.play_fill,
+                                Icons.arrow_forward_ios,
                                 color: Color(0xff87633e),
                                 size: 15.0,
                               )
                             ])),
                     const Padding(padding: EdgeInsets.only(top: 10)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Padding(padding: EdgeInsets.only(left: 10)),
                         Text(
                           'Create Persona',
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
-                            color: Color(0xff87633e),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          )),
+                                color: Color(0xff87633e),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              )),
                         ),
-                      ],
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                        const Padding(padding: EdgeInsets.only(top: 5, left: 5)),
                         SizedBox(
-                          width: 250,
                           height: 30,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MacosTextField(
                                 controller: _nameInputController,
@@ -175,7 +189,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Age',
                             style: GoogleFonts.poppins(
@@ -211,7 +225,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Location',
                             style: GoogleFonts.poppins(
@@ -243,7 +257,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Profession',
                             style: GoogleFonts.poppins(
@@ -275,7 +289,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Gender',
                             style: GoogleFonts.poppins(
@@ -287,26 +301,18 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                          width: 137,
-                          child: MacosPopupButton<String>(
-                            items: <String>[
-                              'Male',
-                              'Female',
-                              'Non-Binary'
-                            ].map<MacosPopupMenuItem<String>>((String value) {
-                              return MacosPopupMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: genderInput,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                genderInput = newValue!;
-                              });
-                            },
-                          ),
-                        ),
+                            width: 140,
+                            height: 30,
+                            child: MacosTextField(
+                              controller: _genderInputController,
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                              placeholder: "Male",
+                              placeholderStyle: const TextStyle(
+                                color: Color(0x665f5f5f),
+                              ),
+                            )),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -315,7 +321,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Marital Status',
                             style: GoogleFonts.poppins(
@@ -327,28 +333,18 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                          width: 137,
-                          child: MacosPopupButton<String>(
-                            items: <String>[
-                              'Married',
-                              'Divorced',
-                              'Separated',
-                              'Widowed',
-                              'Never Married'
-                            ].map<MacosPopupMenuItem<String>>((String value) {
-                              return MacosPopupMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: maritalStatusInput,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                maritalStatusInput = newValue!;
-                              });
-                            },
-                          ),
-                        ),
+                            width: 140,
+                            height: 30,
+                            child: MacosTextField(
+                              controller: _maritalStatusInputController,
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                              placeholder: "Married",
+                              placeholderStyle: const TextStyle(
+                                color: Color(0x665f5f5f),
+                              ),
+                            )),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -357,7 +353,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Education',
                             style: GoogleFonts.poppins(
@@ -369,28 +365,18 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                          width: 137,
-                          child: MacosPopupButton<String>(
-                            items: <String>[
-                              'High School',
-                              'Bachelor\'s',
-                              'Master\'s',
-                              'PhD',
-                              'Other'
-                            ].map<MacosPopupMenuItem<String>>((String value) {
-                              return MacosPopupMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: educationInput,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                educationInput = newValue!;
-                              });
-                            },
-                          ),
-                        ),
+                            width: 140,
+                            height: 30,
+                            child: MacosTextField(
+                              controller: _educationInputController,
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                              placeholder: "Bachelor's in Computer Science",
+                              placeholderStyle: const TextStyle(
+                                color: Color(0x665f5f5f),
+                              ),
+                            )),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -399,7 +385,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Income',
                             style: GoogleFonts.poppins(
@@ -410,28 +396,35 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                           ),
                         ),
-                        SizedBox(
-                          //width: 137,
-                          child: MacosPopupButton<String>(
-                            items: <String>[
-                              '<\$25,000',
-                              '\$25,000 - \$50,000',
-                              '\$50,000 - \$100,000',
-                              '\$100,000 - \$250,000',
-                              '>\$250,000'
-                            ].map<MacosPopupMenuItem<String>>((String value) {
-                              return MacosPopupMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: incomeInput,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                incomeInput = newValue!;
-                              });
-                            },
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              '\$',
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                color: Color(0xff87633e),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.1,
+                              )),
+                            ),
+                            SizedBox(
+                                width: 140,
+                                height: 30,
+                                child: MacosTextField(
+                                  controller: _incomeInputController,
+                                  textAlign: TextAlign.start,
+                                  keyboardType: TextInputType.number,
+                                  maxLines: 1,
+                                  maxLength: 10,
+                                  placeholder: "50,000",
+                                  placeholderStyle: const TextStyle(
+                                    color: Color(0x665f5f5f),
+                                  ),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                )),
+                          ],
                         ),
                       ],
                     ),
@@ -451,13 +444,31 @@ class _CustomizationViewState extends State<CustomizationView> {
                         ),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Text(
+                            'For the fields below, you can specify \nmultiple interests separated by a comma.',
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  color: Color(0xffedbe8e),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 10.0)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Book Interests',
                             style: GoogleFonts.poppins(
@@ -469,8 +480,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
-                            height: 30,
+                            //height: 30,
                             child: MacosTextField(
                               controller: _bookInterestInputController,
                               textAlign: TextAlign.start,
@@ -483,25 +493,24 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Movies & TV Interests',
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                               color: Color(0xff87633e),
                               fontWeight: FontWeight.w600,
-                              fontSize: 12,
+                              fontSize: 13.1,
                             )),
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _moviesTvInterestInputController,
@@ -515,13 +524,13 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Music Interests',
                             style: GoogleFonts.poppins(
@@ -533,7 +542,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _musicInterestInputController,
@@ -547,13 +555,13 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Sports Interests',
                             style: GoogleFonts.poppins(
@@ -565,7 +573,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _sportInterestInputController,
@@ -579,13 +586,13 @@ class _CustomizationViewState extends State<CustomizationView> {
                             )),
                       ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             'Hobbies',
                             style: GoogleFonts.poppins(
@@ -597,7 +604,6 @@ class _CustomizationViewState extends State<CustomizationView> {
                           ),
                         ),
                         SizedBox(
-                            width: 140,
                             height: 30,
                             child: MacosTextField(
                               controller: _hobbyInputController,
@@ -615,15 +621,41 @@ class _CustomizationViewState extends State<CustomizationView> {
                 )),
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Create a Persona Object
+                Persona persona = Persona();
+                persona.name = nameInput;
+                persona.age = ageInput;
+                persona.location = locationInput;
+                persona.profession = professionInput;
+                persona.gender = genderInput;
+                persona.maritalStatus = maritalStatusInput;
+                persona.education = educationInput;
+                persona.income = incomeInput;
+                persona.bookInterest = bookInterestInput;
+                persona.moviesTvInterest = moviesTvInterestInput;
+                persona.musicInterest = musicInterestInput;
+                persona.sportInterest = sportInterestInput;
+                persona.hobby = hobbyInput;
+
+                // Add the persona to DB
+                // TODO @kerem: Add Machine ID
+
+                // TODO @emre: Add Persona to User's Persona List
+
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => SavedPersonasView(accessID: widget.accessID,)));
+              },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(24.0)),
                 ),
                 fixedSize: const Size(130, 24),
-                backgroundColor: Color(0xffedbe8e),
-                shadowColor: Color(0xffedbe8e),
+                backgroundColor: const Color(0xffedbe8e),
+                shadowColor: const Color(0xffedbe8e),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

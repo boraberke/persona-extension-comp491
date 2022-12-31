@@ -31,24 +31,12 @@ class _KeywordViewState extends State<KeywordView> {
 
     super.initState();
   }
-  
-   void sendRequest(String words) async {
-    var uri = 'http://127.0.0.1:8000/?input=${words}';
-    var request = http.Request('GET', Uri.parse(uri));
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    }
-    else {
-      print(response.reasonPhrase);
-    }
-  }
 
   void sendRequest(String words) async {
     var uri = 'http://127.0.0.1:8000/?input=${words}';
     var request = http.Request('GET', Uri.parse(uri));
     http.StreamedResponse response = await request.send();
+
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
@@ -57,25 +45,52 @@ class _KeywordViewState extends State<KeywordView> {
   }
 
   void getWebsitesToSearch(String words) async {
-    var uri = 'https://6cmpd1.deta.dev/?input=${words}';
+    var uri = 'https://370sl8.deta.dev/?input=${words}';
     var wordArray = words.split(' ');
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
-      for (var i = 0; i < wordArray.length; i++) {
-        for (var j = 0; j < body.length; j++) {
-          var link = body[wordArray[i]][j];
-          print('word:${wordArray[i]}, link_number: ${j} ,link: ${link}');
-          openWebPage(link);
-        }
-      }
+      var firstPageLink = body[0]['links'][0];
+      print(firstPageLink);
+      print('word:${body[0]['query']},link: ${firstPageLink}');
+      int screenWidth = context['screen']['availWidth'];
+      int screenHeight = context['screen']['availHeight'];
+      int windowWidth = screenWidth ~/ 2;
+      int windowHeight = screenHeight ~/ 2;
+      int windowLeft = (screenWidth - windowWidth) ~/ 2;
+      int windowTop = (screenHeight - windowHeight) ~/ 2;
+      context['chrome']['windows'].callMethod('create', [
+        JsObject.jsify({
+          'url': firstPageLink,
+          'width': windowWidth,
+          'height': windowHeight,
+          'left': windowLeft,
+          'top': windowTop,
+        }),
+        (JsObject window) {
+          int windowId = window['id'];
+          for (var i = 0; i < body.length; i++) {
+            // first page should be opened in a new window and return the window id.
+            for (var j = 0; j < body[i]['links'].length; j++) {
+              var link = body[i]['links'][j];
+              context['chrome']['tabs'].callMethod('create', [
+                JsObject.jsify({
+                  'windowId': windowId,
+                  'url': link,
+                })
+              ]);
+            }
+          }
+        },
+      ]);
     } else {
       print(response.statusCode);
     }
   }
 
-  void openWebPage(String url) {
-    var options = new JsObject.jsify({'url': url, 'active': true});
+  void openWebPageTab(String url, int windowId) {
+    var options =
+        new JsObject.jsify({'url': url, 'active': false, 'windowId': windowId});
     context['chrome']['tabs'].callMethod('create', [options]);
   }
 
@@ -83,7 +98,7 @@ class _KeywordViewState extends State<KeywordView> {
   Widget build(BuildContext context) {
     // TODO: Add the UI code here
     return CupertinoPageScaffold(
-      backgroundColor: Color(0xfffff6ec),
+      backgroundColor: const Color(0xfffff6ec),
       child: Column(
         children: [
           ElevatedButton(
@@ -138,52 +153,6 @@ class _KeywordViewState extends State<KeywordView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(padding: EdgeInsets.only(top: 5)),
-              /*Container(
-                width: 180,
-                height: 134,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Color(0x555f5f5f),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CupertinoTextField(
-                      controller: _keywordInputController,
-                      focusNode: _textFocus,
-                      textAlign: TextAlign.start,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 8,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: Color(0x00000000)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xffffffff),
-                              spreadRadius: -3.0,
-                              blurRadius: 3.0,
-                            )
-                          ]),
-                      cursorColor: Color(0xff000000),
-                      placeholder:
-                          "A wealthy 50 year old man\nwho lives in Malta and\ndrives a Ford Mustang",
-                      placeholderStyle: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                        color: Color(0x665f5f5f),
-                        fontWeight: FontWeight.w300,
-                        fontSize: 13.1,
-                      )),
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                        color: Color(0xff5f5f5f),
-                        fontWeight: FontWeight.w300,
-                        fontSize: 13.1,
-                      )),
-                    )
-                  ],
-                ),
-              ),*/
               SizedBox(
                 width: 180,
                 height: 134,
