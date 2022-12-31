@@ -5,12 +5,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from deta import Deta
 from typing import Union
 from pydantic import BaseModel
+#from dotenv import load_dotenv
 import os
 
 app = FastAPI(
     title="WebTrackApp",
     version="0.0.1",
 )
+
+
+
+
+#load_dotenv()
 
 
 deta_project_key = os.getenv('DETA_PROJECT_KEY')
