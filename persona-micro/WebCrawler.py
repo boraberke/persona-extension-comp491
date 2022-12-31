@@ -4,18 +4,23 @@ import requests
 
 
 def extractInfoFromTextV2(entity_dict):
-    potential_entities = {"Location" : [' rental estate',' places to go'], 
+    potential_entities = {
                           "location" : [' rental estate',' places to go'], 
                           "interests" : [' events'],
-                          "Interests" : [' events']}
+                          "nationality" : [' food'],
+                            "product" : [' prices']
+                          }
 
     json_keys = entity_dict.keys()
     queries = []
     for key in json_keys:
-        if key in potential_entities.keys():
-            for value_list in potential_entities[key]:
+        if key.lower() in potential_entities.keys():
+            for value_list in potential_entities[key.lower()]:
                 for value in entity_dict[key]:
                     queries.append(str(value) + str(value_list))
+        else:
+            for value in entity_dict[key]:
+                queries.append(str(value))
     
 
     #if queries.length < min_link_threshold: default ekle
