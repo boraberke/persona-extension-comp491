@@ -16,8 +16,8 @@ class SavedPersonasView extends StatefulWidget {
 }
 
 class _SavedPersonasViewState extends State<SavedPersonasView> {
-  late List<Map<String, dynamic>> _personas;
-
+  late Future<List<Map<String, dynamic>>> _personas;
+  late List list;
   // TODO @emre: Get user persona list into _personas
 
   final List<Map<String, dynamic>> _personasDemo = [
@@ -46,27 +46,24 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
   }
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    _loadPersonas();
+    //Future<List<Map<String, dynamic>>> list  = await _loadPersonas();
   }
 
-  Future<void> _loadPersonas() async {
-
+  Future<List<Map<String, dynamic>>> _loadPersonas() async {
     var access = widget.accessID;
     var uri = 'https://370sl8.deta.dev/users/${access}';
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
-      
-      _personas = await body["_items"].map((elem) => {"Name": elem["name"]}).toList();
 
-    // if access_id used for first time "_items" = []
-  } else {
-    print(response.reasonPhrase);
-  }
-    
+      _personas = body["_items"].map((elem) => {"Name": elem["name"]}).toList();
+      return _personas;
+      // if access_id used for first time "_items" = []
+    } else {
+      return _personas;
+    }
   }
 
   @override
@@ -113,7 +110,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
               child: Column(
                 children: [
                   Column(
-                    children:  _personasDemo.map((persona) {
+                    children: list.map((persona) {
                       return Column(
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 10.0)),

@@ -23,10 +23,9 @@ def generate_entities(text):
     frequency_penalty=1,
     presence_penalty=1
   )
-  print(response["choices"][0])
+  print("response",response["choices"][0]["text"])
     
   return json.loads(response["choices"][0]["text"].strip())
-
 
 #text ="I am Emre a football player lives in London. I am interested in jazz."
 #response = generate_entities(text)
