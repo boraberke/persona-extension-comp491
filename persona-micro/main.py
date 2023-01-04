@@ -34,7 +34,7 @@ app.add_middleware(
 
 
 class Persona(BaseModel):
-    machine_id :  Union[str, None] 
+    access_id :  Union[str, None] 
     name: Union[str, None] 
     age: Union[int, None] 
     location: Union[str, None] 
@@ -69,7 +69,7 @@ def search_with_string(input :str):
 
 
 @app.get("/search-persona")
-def search_with_persona(machine_id,name):    
+def search_with_persona(access_id,name):    
     print("received input is:", input)
 
     print("Triggering generate entities")
@@ -87,11 +87,11 @@ def search_with_persona(machine_id,name):
     return result
 
 
-@app.post('/users')
-def create_user(item: Persona):
+@app.post('/users/{access_id}')
+def create_user(item: Persona, access_id):
 
     user = db.put({
-        "machine_id": item.machine_id,
+        "access_id": access_id,
         "name": item.name,
         "age": item.age,
         "profession": item.profession,
@@ -108,14 +108,15 @@ def create_user(item: Persona):
 
     return user
 
-@app.get("/users/{machine_id}/{name}")
-def get_user(machine_id,name):
+@app.get("/users/{access_id}")
+def get_user(access_id):
     
-    personas = db.fetch({"machine_id" : machine_id, "name": name})
+    personas = db.fetch({"access_id" : access_id})
     print(personas)
     if personas.count != 0:
         return personas 
-    raise HTTPException(status_code=404, detail = f"There is no persona for machine_id: '{machine_id}' name: '{name}'")
+    #access_id is not used before
+    return {"_count": 0 , "_items" : []}
 
 
 
@@ -124,14 +125,14 @@ def get_user(machine_id,name):
 #    user = db.put(request.json, key)
 #    return user
 
-@app.delete("/users/{machine_id}/{name}")
-def delete_user(machine_id,name):
-    persona = db.fetch({"machine_id" : machine_id, "name": name})
+@app.delete("/users/{access_id}/{name}")
+def delete_user(access_id,name):
+    persona = db.fetch({"access_id" : access_id, "name": name})
     if persona is not None:
-        db.delete(persona.get)
+        db.delete(persona)
         return {"status": "ok"}
     
-    raise HTTPException(status_code=404, detail = f"There is no persona for machine_id: '{machine_id}' name: '{name}'")
+    raise HTTPException(status_code=404, detail = f"There is no persona for access_id: '{access_id}' name: '{name}'")
 
 
 

@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ui/statistics_view.dart';
+import 'package:http/http.dart' as http;
 
 class SavedPersonasView extends StatefulWidget {
   final String accessID;
@@ -13,7 +16,7 @@ class SavedPersonasView extends StatefulWidget {
 }
 
 class _SavedPersonasViewState extends State<SavedPersonasView> {
-  late List<dynamic> _personas;
+  late List<Map<String, dynamic>> _personas;
 
   // TODO @emre: Get user persona list into _personas
 
@@ -48,8 +51,22 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
     _loadPersonas();
   }
 
-  void _loadPersonas() async {
-    // TODO @emre: Load User's Personas from Database
+  Future<void> _loadPersonas() async {
+
+    var access = widget.accessID;
+    var uri = 'https://370sl8.deta.dev/users/${access}';
+    var response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+      
+      _personas = await body["_items"].map((elem) => {"Name": elem["name"]}).toList();
+
+    // if access_id used for first time "_items" = []
+  } else {
+    print(response.reasonPhrase);
+  }
+    
   }
 
   @override
@@ -96,7 +113,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
               child: Column(
                 children: [
                   Column(
-                    children: _personasDemo.map((persona) {
+                    children:  _personasDemo.map((persona) {
                       return Column(
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 10.0)),

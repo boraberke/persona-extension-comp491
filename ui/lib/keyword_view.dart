@@ -44,6 +44,27 @@ class _KeywordViewState extends State<KeywordView> {
     }
   }
 
+  void _loadPersonas(String access) async {
+
+    // TODO @emre: Load User's Personas from Database
+
+    //var access = widget.accessID;
+    print(access);
+    var uri = 'https://370sl8.deta.dev/users/${access}';
+    var response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+    
+    Map<String, dynamic> body = jsonDecode(response.body);
+  
+    List<Map<String, dynamic>> _personas;  
+    _personas = body["_items"].map((elem) => {"Name": elem["name"]}).toList();
+    print(_personas);
+  } else {
+    print(response.reasonPhrase);
+  }
+  }
+
+
   void getWebsitesToSearch(String words) async {
     var uri = 'https://370sl8.deta.dev/?input=${words}';
     var wordArray = words.split(' ');
@@ -170,7 +191,8 @@ class _KeywordViewState extends State<KeywordView> {
               const Padding(padding: EdgeInsets.only(top: 15)),
               ElevatedButton(
                   onPressed: () {
-                    getWebsitesToSearch(_keywordInputController.text);
+                    //getWebsitesToSearch(_keywordInputController.text);
+                    _loadPersonas(_keywordInputController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
