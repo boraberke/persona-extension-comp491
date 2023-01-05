@@ -112,15 +112,28 @@ class _CustomizationViewState extends State<CustomizationView> {
                 child: ListView(
                   children: [
                     //TODO: change widget below visually
-                    Text(widget.accessID.toString()),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, top: 10),
+                      child: Text(
+                        "Access ID:  ${widget.accessID}",
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                            color: Color(0xff87633e),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.1,
+                        )),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) =>
-                                      SavedPersonasView(accessID: widget.accessID,)));
+                                  builder: (context) => SavedPersonasView(
+                                        accessID: widget.accessID,
+                                      )));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -156,12 +169,13 @@ class _CustomizationViewState extends State<CustomizationView> {
                           'Create Persona',
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
-                                color: Color(0xff87633e),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17,
-                              )),
+                            color: Color(0xff87633e),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          )),
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 5, left: 5)),
+                        const Padding(
+                            padding: EdgeInsets.only(top: 5, left: 5)),
                         SizedBox(
                           height: 30,
                           child: Column(
@@ -449,15 +463,16 @@ class _CustomizationViewState extends State<CustomizationView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                          padding:
+                              const EdgeInsets.only(left: 10.0, right: 10.0),
                           child: Text(
                             'For the fields below, you can specify \nmultiple interests separated by a comma.',
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
-                                  color: Color(0xffedbe8e),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                )),
+                              color: Color(0xffedbe8e),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12,
+                            )),
                           ),
                         ),
                       ],
@@ -482,15 +497,15 @@ class _CustomizationViewState extends State<CustomizationView> {
                         SizedBox(
                             //height: 30,
                             child: MacosTextField(
-                              controller: _bookInterestInputController,
-                              textAlign: TextAlign.start,
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              placeholder: "The Great Gatsby, Hamlet",
-                              placeholderStyle: const TextStyle(
-                                color: Color(0x665f5f5f),
-                              ),
-                            )),
+                          controller: _bookInterestInputController,
+                          textAlign: TextAlign.start,
+                          keyboardType: TextInputType.text,
+                          maxLines: 1,
+                          placeholder: "The Great Gatsby, Hamlet",
+                          placeholderStyle: const TextStyle(
+                            color: Color(0x665f5f5f),
+                          ),
+                        )),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -646,7 +661,9 @@ class _CustomizationViewState extends State<CustomizationView> {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => SavedPersonasView(accessID: widget.accessID,)));
+                        builder: (context) => SavedPersonasView(
+                              accessID: widget.accessID,
+                            )));
               },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
