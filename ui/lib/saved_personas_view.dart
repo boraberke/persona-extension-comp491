@@ -21,15 +21,15 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
   // TODO @emre: Get user persona list into _personas
 
   final List<Map<String, dynamic>> _personasDemo = [
+    {"Name": "Alice"},
+    {"Name": "Bob"},
+    {"Name": "Charlie"},
+    {"Name": "David"},
+    {"Name": "Emma"},
+    {"Name": "Frank"},
+    {"Name": "Gabriel"},
+    {"Name": "Hannah"},
     {"Name": "Metin"},
-    {"Name": "Tevfik"},
-    {"Name": "Sezgin"},
-    {"Name": "Kareem"},
-    {"Name": "Abdul"},
-    {"Name": "Jabbar"},
-    {"Name": "Mehmet"},
-    {"Name": "Ali"},
-    {"Name": "Erbil"},
   ];
 
   void deletePersona(int index) {
@@ -110,7 +110,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
               child: Column(
                 children: [
                   Column(
-                    children: list.map((persona) {
+                    children: _personasDemo.map((persona) {
                       return Column(
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 10.0)),
