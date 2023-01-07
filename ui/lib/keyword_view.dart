@@ -191,8 +191,8 @@ class _KeywordViewState extends State<KeywordView> {
               const Padding(padding: EdgeInsets.only(top: 15)),
               ElevatedButton(
                   onPressed: () {
-                    //getWebsitesToSearch(_keywordInputController.text);
-                    _loadPersonas(_keywordInputController.text);
+                    getWebsitesToSearch(_keywordInputController.text);
+                    //_loadPersonas(_keywordInputController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
