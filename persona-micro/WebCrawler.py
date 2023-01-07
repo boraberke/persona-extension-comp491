@@ -41,6 +41,69 @@ def extractInfoFromTextV2(entity_dict):
 
     #if queries.length < min_link_threshold: default ekle
     return queries
+
+saved_persona = {
+  "access_id": "emresa",
+  "age": 23,
+  "location": "Istanbul",
+  "profession": "Student",
+  "gender": "Male",
+  "marital_status": "Single",
+  "education": "Bachelor's in Computer Science",
+  "income": "<$25,000",
+  "book_interest": [
+    "Andrzej Sapkowski"
+  ],
+  "movies_interest": [
+    "Henry Cavill"
+  ],
+  "music_interest": [
+    "Ramin Djawadi"
+  ],
+  "sport_interest": [
+    "Lionel Messi"
+  ],
+  "hobby": [
+    "FIFA 23"
+  ],
+  "key": "9pi57ar6gvfu",
+  "name": "Kerem"
+}
+
+def extractInfoFromSavedPersona(saved_persona):
+    keys = saved_persona.keys()
+    queries = []
+
+    for key in keys:
+        value = saved_persona[key]
+
+        if key == "profession":
+            if saved_persona["location"] != None:
+                queries.append(value + ' jobs in ' + saved_persona["location"])
+            else:
+                queries.append(value + ' jobs')
+        elif key == "book_interest":
+            for val in value:
+                queries.append(val + ' book discussion')
+                queries.append(val + ' book price')
+        elif key == "movies_interest":
+            for val in value:
+                queries.append(val + ' letterboxd reviews')
+                queries.append(val + ' film watch')
+        elif key == "music_interest":
+            for val in value:
+                if saved_persona["location"] != None:
+                    queries.append(val + ' concerts in ' + saved_persona["location"])
+                else:
+                    queries.append(val + ' concerts')
+        elif key == "sport_interest":
+            for val in value:
+                queries.append(val + ' match tickets')
+        elif key == "hobby":
+            for val in value:
+                queries.append(val + ' events') 
+
+    return queries     
             
 
 def findURLsByKeyword(queries):
@@ -57,7 +120,7 @@ def findURLsByKeyword(queries):
             "gl": "us"          # country of the search, US -> USA
         }
         
-        html = requests.get("https://www.google.com/search", params=params, headers=headers, timeout=15)
+        html = requests.get("https://www.google.com/search", params=params, headers=headers, timeout=10)
         soup = BeautifulSoup(html.text, "lxml")
 
         links = []
