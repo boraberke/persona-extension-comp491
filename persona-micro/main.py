@@ -76,7 +76,7 @@ def search_with_persona(persona: Persona):
     print("Triggerin extract information from persona is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
-    result = findURLsByKeyword(queries)
+    result = findURLsByKeyword(queries,3)
     print("Triggering findURLsByKeyword is done. Result: ", result)
     return result
 
@@ -129,20 +129,3 @@ async def delete_user(access_id,name):
     except:
         raise HTTPException(status_code=404, detail = f"There is no persona for access_id: '{access_id}' name: '{name}'")
     
-   
-    
-    
-
-
-
-
-
-
-
-
-
-    
-
-
-
-

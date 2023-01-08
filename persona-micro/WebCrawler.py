@@ -106,7 +106,7 @@ def extractInfoFromSavedPersona(saved_persona):
     return queries     
             
 
-def findURLsByKeyword(queries):
+def findURLsByKeyword(queries, limit=None):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36",
     }
@@ -124,8 +124,13 @@ def findURLsByKeyword(queries):
         soup = BeautifulSoup(html.text, "lxml")
 
         links = []
+
+        all_links = soup.select(".yuRUbf a")
+
+        if len(all_links) > limit:
+            all_links = all_links[:limit]
         
-        for link in soup.select(".yuRUbf a"):
+        for link in all_links:
             resulted_link = link.get('href')
             links.append(resulted_link)
 
@@ -138,18 +143,18 @@ def findURLsByKeyword(queries):
 
 
 #[
- #   {
+#   {
 #       "query": "Messi events",
 #       "links": [
 #           "https://timepath.co/lionel-messi",
 #           "https://www.goal.com/en-us/news/how-old-is-lionel-messi-a-timeline-of-his-career-so-far/blt8c4ae3e9ea60e749",
- #           "https://www.sutori.com/story/a-timeline-of-lionel-messi-s-soccer-career--Z5MHSN5gxyxJUD2CbaYAVq4q",
- #           "https://www.cnn.com/interactive/2020/08/sport/lionel-messi-career-barcelona-spt-intl/",
- #           "https://www.preceden.com/timelines/385879-lionel-messi",
- #           "https://bleacherreport.com/articles/950467-lionel-messi-10-of-the-best-moments-of-his-career",
- #           "https://www.foxsports.com/soccer/lionel-messi-player",
- #           "https://www.independent.co.uk/topic/lionel-messi",
- #           "https://historydraft.com/story/lionel-messi/timeline/204"
- #       ]
- #   }
+#           "https://www.sutori.com/story/a-timeline-of-lionel-messi-s-soccer-career--Z5MHSN5gxyxJUD2CbaYAVq4q",
+#           "https://www.cnn.com/interactive/2020/08/sport/lionel-messi-career-barcelona-spt-intl/",
+#           "https://www.preceden.com/timelines/385879-lionel-messi",
+#           "https://bleacherreport.com/articles/950467-lionel-messi-10-of-the-best-moments-of-his-career",
+#           "https://www.foxsports.com/soccer/lionel-messi-player",
+#           "https://www.independent.co.uk/topic/lionel-messi",
+#           "https://historydraft.com/story/lionel-messi/timeline/204"
+#       ]
+#   }
 #]
