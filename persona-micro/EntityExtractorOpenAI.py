@@ -12,7 +12,11 @@ openai.api_key = os.getenv('OPEN_API_SECRET_KEY')
 
 def generate_entities(text):
   
-  search_text = "Give interests, nationality, gender, age and the name of the person as json that says : {input_text} without any command in string. If can't find a value for key set value to be unknown as string".format(input_text = text)
+  search_text = f'Process the following sentence: "{text}"'
+  the_rest =  ' Give the results in the following format: {"Music Interests": "Movie Interests": "Sport Interests": "Hobby": "Nationality": "Product": "Gender": "Age": "Name": "Location": "Profession":} If you cannot find a value for key, set value to be "unknown" as string.'
+  search_text += the_rest 
+  #search_text = "Process the following sentence: \"{input_text}\" Give the results in the following format: {\"Music Interests\": \"Movie Interests\": \"Sport Interests\": \"Hobby\": \"Nationality\": \"Product\": \"Gender\": \"Age\": \"Name\": \"Location\": \"Profession\":} If you can't find a value for key, set value to be \"unknown\" as string.".format(input_text = text)
+  #search_text = "Give interests, nationality, gender, age and the name of the person as json that says : \"{input_text}\" On your output, don't have any comment in string. If you can't find a value for key, set value to be unknown as string".format(input_text = text)
   print(search_text)
   response = openai.Completion.create(
     model="text-davinci-003",

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
-from WebCrawler import findURLsByKeyword, extractInfoFromTextV2,extractInfoFromSavedPersona
+from WebCrawler import findURLsByKeyword, extractInfoFromTextV3,extractInfoFromSavedPersona
 from EntityExtractorOpenAI import generate_entities
 from fastapi.middleware.cors import CORSMiddleware
 from deta import Deta
@@ -57,11 +57,11 @@ def search_with_string(input :str):
     print("Triggering generate entities is done. Result: ", entities)
 
     print("Triggering extract information from text")
-    queries = extractInfoFromTextV2(entities)
+    queries = extractInfoFromTextV3(entities)
     print("Triggerin extract information from text is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
-    result = findURLsByKeyword(queries)
+    result = findURLsByKeyword(queries,limit=3)
     print("Triggering findURLsByKeyword is done. Result: ", result)
 
     return result

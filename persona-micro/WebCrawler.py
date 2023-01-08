@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 
 
-
 def extractInfoFromTextV2(entity_dict):
     potential_entities = {
                           "location" : [' rental estate',' places to go'], 
@@ -11,7 +10,7 @@ def extractInfoFromTextV2(entity_dict):
                           "nationality" : [' food'],
                             "product" : [' prices']
                           }
-    json_keys = entity_dict.keys()    
+    json_keys = entity_dict.keys()
     if 'name' in json_keys:               
         entity_dict.pop('name')
     
@@ -21,54 +20,94 @@ def extractInfoFromTextV2(entity_dict):
     for key in json_keys:
         if key.lower() in potential_entities.keys():
             for value_list in potential_entities[key.lower()]:
-                print(type(entity_dict[key]), "is type of", entity_dict[key])
-
-                print(type(entity_dict[key]) != str)
-                if (type(entity_dict[key]) != str):
+                if (type(entity_dict[key]) == list):
                     for value in entity_dict[key]:
                         queries.append(str(value) + str(value_list))
-                elif(entity_dict[key].lower() != 'unknown' and type(entity_dict[key]) == str):
-                     queries.append(str(entity_dict[key]) + str(value_list))
+                elif (type(entity_dict[key]) == str):
+                    if (entity_dict[key].lower() != 'unknown' and entity_dict[key].lower() != "unknown"):
+                        queries.append(str(entity_dict[key]) + str(value_list))
         else:
-            if (type(entity_dict[key]) != str):
+            if (type(entity_dict[key]) == list):
                 for value in entity_dict[key]:
                     queries.append(str(value))
-            elif (type(entity_dict[key]) == str and entity_dict[key].lower() != 'unknown'):
-                queries.append(entity_dict[key])
-
-            
+            elif (type(entity_dict[key]) == str):
+                if (entity_dict[key].lower() != 'unknown' and entity_dict[key].lower() != "unknown"):
+                    queries.append(entity_dict[key])
     
-
-    #if queries.length < min_link_threshold: default ekle
     return queries
 
-saved_persona = {
-  "access_id": "emresa",
-  "age": 23,
-  "location": "Istanbul",
-  "profession": "Student",
-  "gender": "Male",
-  "marital_status": "Single",
-  "education": "Bachelor's in Computer Science",
-  "income": "<$25,000",
-  "book_interest": [
-    "Andrzej Sapkowski"
-  ],
-  "movies_interest": [
-    "Henry Cavill"
-  ],
-  "music_interest": [
-    "Ramin Djawadi"
-  ],
-  "sport_interest": [
-    "Lionel Messi"
-  ],
-  "hobby": [
-    "FIFA 23"
-  ],
-  "key": "9pi57ar6gvfu",
-  "name": "Kerem"
-}
+
+# KEYS:
+# {"Music Interests": "Movie Interests": "Sport Interests": "Hobby": "Nationality": "Product": "Gender": "Age": "Name": "Location": "Profession": }
+def extractInfoFromTextV3(entity_dict):
+    queries = []
+    json_keys = entity_dict.keys()
+
+    for key in json_keys:
+        value = entity_dict[key]
+
+        if value != "unknown":
+            value_arr = list(map(lambda x: x.strip(), value.split(",")))
+
+            if key == "Profession":
+                for val in value_arr:
+                    if entity_dict["Location"].lower() != "unknown":
+                        queries.append(val + ' jobs in ' + entity_dict["Location"])
+                    else:
+                        queries.append(val + ' jobs')
+            elif key == "Movie Interests":
+                for val in value_arr:
+                    queries.append(val + ' letterboxd reviews')
+                    queries.append(val + ' film watch')
+            elif key == "Music Interests":
+                for val in value_arr:
+                    if entity_dict["location"].lower() != "unknown":
+                        queries.append(val + ' concerts in ' + entity_dict["location"])
+                    else:
+                        queries.append(val + ' concerts')
+            elif key == "Sport Interests":
+                for val in value_arr:
+                    queries.append(val + ' match tickets')
+            elif key == "Hobby":
+                for val in value_arr:
+                    queries.append(val + ' events') 
+            elif key == "Nationality":
+                for val in value_arr:
+                    queries.append(val + ' food')
+            elif key == "Product":
+                for val in value_arr:
+                    queries.append(val + ' prices')
+    
+    return queries
+
+
+# saved_persona = {
+#   "access_id": "emresa",
+#   "age": 23,
+#   "location": "Istanbul",
+#   "profession": "Student",
+#   "gender": "Male",
+#   "marital_status": "Single",
+#   "education": "Bachelor's in Computer Science",
+#   "income": "<$25,000",
+#   "book_interest": [
+#     "Andrzej Sapkowski"
+#   ],
+#   "movies_interest": [
+#     "Henry Cavill"
+#   ],
+#   "music_interest": [
+#     "Ramin Djawadi"
+#   ],
+#   "sport_interest": [
+#     "Lionel Messi"
+#   ],
+#   "hobby": [
+#     "FIFA 23"
+#   ],
+#   "key": "9pi57ar6gvfu",
+#   "name": "Kerem"
+# }
 
 def extractInfoFromSavedPersona(saved_persona):
     keys = saved_persona.keys()
@@ -127,8 +166,9 @@ def findURLsByKeyword(queries, limit=None):
 
         all_links = soup.select(".yuRUbf a")
 
-        if len(all_links) > limit:
-            all_links = all_links[:limit]
+        if limit is not None:   
+            if len(all_links) > limit:
+                all_links = all_links[:limit]
         
         for link in all_links:
             resulted_link = link.get('href')
