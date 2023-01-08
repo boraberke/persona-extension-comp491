@@ -153,6 +153,9 @@ def findURLsByKeyword(queries, limit=None):
 
     results = []
 
+    if len(queries) <= 3:
+        limit = None
+
     for query in queries:
         params = {
             "q": query,
@@ -181,7 +184,6 @@ def findURLsByKeyword(queries, limit=None):
         })
 
     return results
-
 
 #[
 #   {
