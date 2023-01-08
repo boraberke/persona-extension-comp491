@@ -662,13 +662,13 @@ class _CustomizationViewState extends State<CustomizationView> {
 
                 List<String> tempSport = [];
                 if (_sportInterestInputController.text.isNotEmpty) {
-                  tempSport = _bookInterestInputController.text.split(',');
+                  tempSport = _sportInterestInputController.text.split(',');
                   tempSport = tempSport.map((e) => e.trim()).toList();
                 }
 
                 List<String> tempHobby = [];
                 if (_hobbyInputController.text.isNotEmpty) {
-                  tempHobby = _bookInterestInputController.text.split(',');
+                  tempHobby = _hobbyInputController.text.split(',');
                   tempHobby = tempHobby.map((e) => e.trim()).toList();
                 }
                 print(

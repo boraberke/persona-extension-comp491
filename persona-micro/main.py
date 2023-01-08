@@ -76,7 +76,7 @@ def search_with_persona(persona: Persona):
     print("Triggerin extract information from persona is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
-    result = findURLsByKeyword(queries,3)
+    result = findURLsByKeyword(queries,limit=3)
     print("Triggering findURLsByKeyword is done. Result: ", result)
     return result
 
