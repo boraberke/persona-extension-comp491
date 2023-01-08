@@ -45,13 +45,14 @@ def extractInfoFromTextV3(entity_dict):
 
     for key in json_keys:
         value = entity_dict[key]
+        
 
-        if value != "unknown":
+        if "unknown" not in value.lower():
             value_arr = list(map(lambda x: x.strip(), value.split(",")))
 
             if key == "Profession":
                 for val in value_arr:
-                    if entity_dict["Location"].lower() != "unknown":
+                    if "unknown" not in entity_dict["Location"].lower():
                         queries.append(val + ' jobs in ' + entity_dict["Location"])
                     else:
                         queries.append(val + ' jobs')
@@ -61,8 +62,8 @@ def extractInfoFromTextV3(entity_dict):
                     queries.append(val + ' film watch')
             elif key == "Music Interests":
                 for val in value_arr:
-                    if entity_dict["location"].lower() != "unknown":
-                        queries.append(val + ' concerts in ' + entity_dict["location"])
+                    if "unknown" not in entity_dict["Location"].lower():
+                        queries.append(val + ' concerts in ' + entity_dict["Location"])
                     else:
                         queries.append(val + ' concerts')
             elif key == "Sport Interests":
