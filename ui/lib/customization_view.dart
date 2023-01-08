@@ -640,45 +640,63 @@ class _CustomizationViewState extends State<CustomizationView> {
                 )),
           ),
           ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Create a Persona Object
-                // TODO: Split with comma then fill arrays
                 List<String> tempBook = [];
-                List<String> tempTv = [];
+                if (_bookInterestInputController.text.isNotEmpty) {
+                  tempBook = _bookInterestInputController.text.split(',');
+                  tempBook = tempBook.map((e) => e.trim()).toList();
+                }
+
+                List<String> tempMovies = [];
+                if (_moviesTvInterestInputController.text.isNotEmpty) {
+                  tempMovies = _moviesTvInterestInputController.text.split(',');
+                  tempMovies = tempMovies.map((e) => e.trim()).toList();
+                }
+
                 List<String> tempMusic = [];
+                if (_musicInterestInputController.text.isNotEmpty) {
+                  tempMusic = _musicInterestInputController.text.split(',');
+                  tempMusic = tempMusic.map((e) => e.trim()).toList();
+                }
+
                 List<String> tempSport = [];
+                if (_sportInterestInputController.text.isNotEmpty) {
+                  tempSport = _bookInterestInputController.text.split(',');
+                  tempSport = tempSport.map((e) => e.trim()).toList();
+                }
+
                 List<String> tempHobby = [];
-                tempBook.add(bookInterestInput);
-                tempTv.add(moviesTvInterestInput);
-                tempMusic.add(musicInterestInput);
-                tempSport.add(sportInterestInput);
-                tempHobby.add(hobbyInput);
+                if (_hobbyInputController.text.isNotEmpty) {
+                  tempHobby = _bookInterestInputController.text.split(',');
+                  tempHobby = tempHobby.map((e) => e.trim()).toList();
+                }
+                print(
+                    "name: ${_nameInputController.text}\n age: ${_ageInputController.text}\n profession: ${_professionInputController.text}\n gender: ${_genderInputController.text}\n location: ${_locationInputController.text}\n marital_status: ${_maritalStatusInputController.text}\n education: ${_educationInputController.text}\n income: ${_incomeInputController.text}\n book_interests: $tempBook\n movies_interests: $tempMovies\n music_interests: $tempMusic\n sport_interests: $tempSport\n hobby: $tempHobby\n");
                 Persona persona = Persona(
-                    name: nameInput,
-                    age: int.parse(ageInput),
-                    profession: professionInput,
-                    gender: genderInput,
-                    location: locationInput,
-                    marital_status: maritalStatusInput,
-                    education: educationInput,
-                    income: incomeInput,
+                    name: _nameInputController.text,
+                    age: int.parse(_ageInputController.text),
+                    profession: _professionInputController.text,
+                    gender: _genderInputController.text,
+                    location: _locationInputController.text,
+                    marital_status: _maritalStatusInputController.text,
+                    education: _educationInputController.text,
+                    income: _incomeInputController.text,
                     book_interest: tempBook,
-                    movies_interest: tempTv,
+                    movies_interest: tempMovies,
                     music_interest: tempMusic,
                     sport_interest: tempSport,
                     hobby: tempHobby);
 
-                // Add the persona to DB
-                // TODO @kerem: Add Machine ID
-
-                // TODO @emre: Add Persona to User's Persona List
-
-                // Navigator.push(
-                //     context,
-                //     CupertinoPageRoute(
-                //         builder: (context) => SavedPersonasView(
-                //               accessID: widget.accessID,
-                //            )));
+                await addPersonaToList(widget.accessID, persona);
+                List<Persona> personas = await getPersonaList(widget.accessID);
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => SavedPersonasView(
+                              personas: personas,
+                              accessID: widget.accessID,
+                            )));
               },
               style: ElevatedButton.styleFrom(
                 elevation: 5,

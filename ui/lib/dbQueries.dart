@@ -25,6 +25,18 @@ Future<List<Persona>> getPersonaList(String accessID) async {
   }
 }
 
+Future<String> addPersonaToList(String accessID, Persona persona) async {
+  var uri = 'https://370sl8.deta.dev/users/${accessID}';
+  var headers = {'Content-Type': 'application/json'};
+  var response = await http.post(Uri.parse(uri),
+      body: jsonEncode(persona), headers: headers);
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to add persona to the list.');
+  }
+}
+
 Future<String> deletePersonaFromList(String accessID, String name) async {
   var uri = 'https://370sl8.deta.dev/users/${accessID}/${name}';
   var response = await http.delete(Uri.parse(uri));
@@ -38,8 +50,6 @@ Future<String> deletePersonaFromList(String accessID, String name) async {
 void getWebsitesToSearchfromPersona(Persona persona) async {
   var uri = 'https://370sl8.deta.dev/search-persona';
   var headers = {'Content-Type': 'application/json'};
-  var temp =
-      '''{"age": 23,"location": "Istanbul","profession": "Student","gender": "Male","marital_status": "Single","education": "Bachelor\'s in Computer Science","income": "<\$25,000","book_interest": ["Andrzej Sapkowski"],"movies_interest": ["Henry Cavill"],"music_interest": ["Ramin Djawadi"],\n"sport_interest": ["Lionel Messi"],"hobby": ["FIFA 23"],"key": "9pi57ar6gvfu","name": "Kerem"}''';
   var response = await http.post(Uri.parse(uri),
       body: jsonEncode(persona), headers: headers);
   if (response.statusCode == 200) {
