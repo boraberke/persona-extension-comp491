@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:ui/saved_personas_view.dart';
-import 'Persona.dart';
+import 'objects/Persona.dart';
+import 'dbQueries.dart';
 
 class CustomizationView extends StatefulWidget {
   final String accessID;
@@ -118,22 +119,25 @@ class _CustomizationViewState extends State<CustomizationView> {
                         "Access ID:  ${widget.accessID}",
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
-                            color: Color(0xff87633e),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13.1,
+                          color: Color(0xff87633e),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.1,
                         )),
                         overflow: TextOverflow.fade,
                       ),
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          List<Persona> personas =
+                              await getPersonaList(widget.accessID);
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
                                   builder: (context) => SavedPersonasView(
-                                        accessID: widget.accessID,
-                                      )));
+                                      accessID: widget.accessID,
+                                      personas: personas)));
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
@@ -638,32 +642,43 @@ class _CustomizationViewState extends State<CustomizationView> {
           ElevatedButton(
               onPressed: () {
                 // Create a Persona Object
-                Persona persona = Persona();
-                persona.name = nameInput;
-                persona.age = ageInput;
-                persona.location = locationInput;
-                persona.profession = professionInput;
-                persona.gender = genderInput;
-                persona.maritalStatus = maritalStatusInput;
-                persona.education = educationInput;
-                persona.income = incomeInput;
-                persona.bookInterest = bookInterestInput;
-                persona.moviesTvInterest = moviesTvInterestInput;
-                persona.musicInterest = musicInterestInput;
-                persona.sportInterest = sportInterestInput;
-                persona.hobby = hobbyInput;
+                // TODO: Split with comma then fill arrays
+                List<String> tempBook = [];
+                List<String> tempTv = [];
+                List<String> tempMusic = [];
+                List<String> tempSport = [];
+                List<String> tempHobby = [];
+                tempBook.add(bookInterestInput);
+                tempTv.add(moviesTvInterestInput);
+                tempMusic.add(musicInterestInput);
+                tempSport.add(sportInterestInput);
+                tempHobby.add(hobbyInput);
+                Persona persona = Persona(
+                    name: nameInput,
+                    age: int.parse(ageInput),
+                    profession: professionInput,
+                    gender: genderInput,
+                    location: locationInput,
+                    marital_status: maritalStatusInput,
+                    education: educationInput,
+                    income: incomeInput,
+                    book_interest: tempBook,
+                    movies_interest: tempTv,
+                    music_interest: tempMusic,
+                    sport_interest: tempSport,
+                    hobby: tempHobby);
 
                 // Add the persona to DB
                 // TODO @kerem: Add Machine ID
 
                 // TODO @emre: Add Persona to User's Persona List
 
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) => SavedPersonasView(
-                              accessID: widget.accessID,
-                            )));
+                // Navigator.push(
+                //     context,
+                //     CupertinoPageRoute(
+                //         builder: (context) => SavedPersonasView(
+                //               accessID: widget.accessID,
+                //            )));
               },
               style: ElevatedButton.styleFrom(
                 elevation: 5,

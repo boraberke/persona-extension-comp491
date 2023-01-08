@@ -3,71 +3,35 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'objects/Persona.dart';
 import 'package:ui/statistics_view.dart';
 import 'package:http/http.dart' as http;
+import 'dbQueries.dart';
 
 class SavedPersonasView extends StatefulWidget {
-  final String accessID;
+  SavedPersonasView(
+      {super.key, required this.accessID, required this.personas});
 
-  const SavedPersonasView({super.key, required this.accessID});
+  List<Persona> personas;
+  final String accessID;
 
   @override
   State<SavedPersonasView> createState() => _SavedPersonasViewState();
 }
 
 class _SavedPersonasViewState extends State<SavedPersonasView> {
-  late Future<List<Map<String, dynamic>>> _personas;
-  late List list;
-  // TODO @emre: Get user persona list into _personas
-
-  final List<Map<String, dynamic>> _personasDemo = [
-    {"Name": "Alice"},
-    {"Name": "Bob"},
-    {"Name": "Charlie"},
-    {"Name": "David"},
-    {"Name": "Emma"},
-    {"Name": "Frank"},
-    {"Name": "Gabriel"},
-    {"Name": "Hannah"},
-    {"Name": "Metin"},
-  ];
-
-  void deletePersona(int index) {
-    setState(() {
-      _personasDemo.removeAt(index);
-      // TODO @emre: Remove persona from DB
-    });
-  }
-
-  void goWithPersona(int index) {
-    setState(() {
-      // TODO @emre: Go with selected persona.
-    });
-  }
+  late List<Persona> personas;
+  late String accessID;
 
   @override
   void initState() async {
     super.initState();
-    //Future<List<Map<String, dynamic>>> list  = await _loadPersonas();
-  }
-
-  Future<List<Map<String, dynamic>>> _loadPersonas() async {
-    var access = widget.accessID;
-    var uri = 'https://370sl8.deta.dev/users/${access}';
-    var response = await http.get(Uri.parse(uri));
-    if (response.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      _personas = body["_items"].map((elem) => {"Name": elem["name"]}).toList();
-      return _personas;
-      // if access_id used for first time "_items" = []
-    } else {
-      return _personas;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    personas = widget.personas;
+    accessID = widget.accessID;
     // TODO: Add the UI code here
     return CupertinoPageScaffold(
       backgroundColor: const Color(0xfffff6ec),
@@ -110,7 +74,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
               child: Column(
                 children: [
                   Column(
-                    children: _personasDemo.map((persona) {
+                    children: personas.map((persona) {
                       return Column(
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 10.0)),
@@ -127,8 +91,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                       fixedSize: const Size(160, 40),
                                       backgroundColor: const Color(0xffffead4)),
                                   onPressed: () {
-                                    goWithPersona(
-                                        _personasDemo.indexOf(persona));
+                                    getWebsitesToSearchfromPersona(persona);
                                     Navigator.push(
                                         context,
                                         CupertinoPageRoute(
@@ -147,7 +110,7 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                           size: 20.0,
                                         ),
                                         Text(
-                                          persona['Name'],
+                                          persona.name,
                                           style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                             color: Color(0xff87633e),
@@ -166,8 +129,14 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                               Radius.circular(10))),
                                       fixedSize: const Size(40, 40),
                                       backgroundColor: const Color(0xffff7e80)),
-                                  onPressed: () => deletePersona(
-                                      _personasDemo.indexOf(persona)),
+                                  onPressed: () => {
+                                        deletePersonaFromList(
+                                            widget.accessID, persona.name),
+                                        setState(() {
+                                          personas.removeWhere((item) =>
+                                              item.name == persona.name);
+                                        })
+                                      },
                                   child: const Icon(
                                     CupertinoIcons.trash_fill,
                                     color: Color(0xffffffff),

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
-from WebCrawler import findURLsByKeyword, extractInfoFromTextV2
+from WebCrawler import findURLsByKeyword, extractInfoFromTextV2,extractInfoFromSavedPersona
 from EntityExtractorOpenAI import generate_entities
 from fastapi.middleware.cors import CORSMiddleware
 from deta import Deta
@@ -7,14 +7,11 @@ from typing import Union
 from pydantic import BaseModel
 #from dotenv import load_dotenv
 import os
-
+import json
 app = FastAPI(
     title="WebTrackApp",
     version="0.0.1",
 )
-
-
-
 
 #load_dotenv()
 
@@ -41,14 +38,16 @@ class Persona(BaseModel):
     profession: Union[str, None] 
     gender: Union[str, None] 
     marital_status: Union[str, None] 
+    location: Union[str,None]
     education: Union[str, None] 
     income: Union[str, None] 
-    music_interest: Union[str, None] 
-    book_interest: Union[str, None] 
-    movies_interest: Union[str, None] 
-    sport_interest: Union[str, None] 
-    hobby: Union[str, None] 
-
+    music_interest: Union[list[str], None] 
+    book_interest: Union[list[str], None] 
+    movies_interest: Union[list[str], None] 
+    sport_interest: Union[list[str], None] 
+    hobby: Union[list[str], None] 
+    class Config:
+        orm_mode = True
 
 @app.get("/")
 def search_with_string(input :str):    
@@ -68,22 +67,17 @@ def search_with_string(input :str):
     return result
 
 
-@app.get("/search-persona")
-def search_with_persona(access_id,name):    
-    print("received input is:", input)
+@app.post("/search-persona")
+def search_with_persona(persona: Persona): 
 
-    print("Triggering generate entities")
-    entities = generate_entities(input)
-    print("Triggering generate entities is done. Result: ", entities)
-
-    print("Triggering extract information from text")
-    queries = extractInfoFromTextV2(entities)
-    print("Triggerin extract information from text is done: ", queries)
+    print("received persona is:", persona)
+    print("Triggering extract information from persona")
+    queries = extractInfoFromSavedPersona(json.loads(persona.json()))
+    print("Triggerin extract information from persona is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
     result = findURLsByKeyword(queries)
     print("Triggering findURLsByKeyword is done. Result: ", result)
-
     return result
 
 
@@ -96,14 +90,15 @@ def create_user(item: Persona, access_id):
         "age": item.age,
         "profession": item.profession,
         "gender": item.gender,
+        "location": item.location,
         "marital_status": item.marital_status,
         "education": item.education,
         "income": item.income,
-        "music_interest": list(item.music_interest.split(',')),
-        "book_interest": list(item.book_interest.split(',')),
-        "movies_interest": list(item.movies_interest.split(',')),
-        "sport_interest": list(item.sport_interest.split(',')),
-        "hobby": list(item.hobby.split(','))
+        "music_interest": item.music_interest,
+        "book_interest": item.book_interest,
+        "movies_interest": item.movies_interest,
+        "sport_interest": item.sport_interest,
+        "hobby": item.hobby
     })
 
     return user
@@ -114,9 +109,9 @@ def get_user(access_id):
     personas = db.fetch({"access_id" : access_id})
     print(personas)
     if personas.count != 0:
-        return personas 
+        return personas.items
     #access_id is not used before
-    return {"_count": 0 , "_items" : []}
+    return []
 
 
 
@@ -126,13 +121,17 @@ def get_user(access_id):
 #    return user
 
 @app.delete("/users/{access_id}/{name}")
-def delete_user(access_id,name):
-    persona = db.fetch({"access_id" : access_id, "name": name})
-    if persona is not None:
-        db.delete(persona)
-        return {"status": "ok"}
+async def delete_user(access_id,name):
+    try:
+        persona = db.fetch({"access_id" : access_id, "name": name})
+        db.delete(persona.items[0]["key"])
+        return persona.items[0]["name"]
+    except:
+        raise HTTPException(status_code=404, detail = f"There is no persona for access_id: '{access_id}' name: '{name}'")
     
-    raise HTTPException(status_code=404, detail = f"There is no persona for access_id: '{access_id}' name: '{name}'")
+   
+    
+    
 
 
 

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dbQueries.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 import 'dart:js';
@@ -42,77 +43,6 @@ class _KeywordViewState extends State<KeywordView> {
     } else {
       print(response.reasonPhrase);
     }
-  }
-
-  void _loadPersonas(String access) async {
-
-    // TODO @emre: Load User's Personas from Database
-
-    //var access = widget.accessID;
-    print(access);
-    var uri = 'https://370sl8.deta.dev/users/${access}';
-    var response = await http.get(Uri.parse(uri));
-    if (response.statusCode == 200) {
-    
-    Map<String, dynamic> body = jsonDecode(response.body);
-  
-    List<Map<String, dynamic>> _personas;  
-    _personas = body["_items"].map((elem) => {"Name": elem["name"]}).toList();
-    print(_personas);
-  } else {
-    print(response.reasonPhrase);
-  }
-  }
-
-
-  void getWebsitesToSearch(String words) async {
-    var uri = 'https://370sl8.deta.dev/?input=${words}';
-    var wordArray = words.split(' ');
-    var response = await http.get(Uri.parse(uri));
-    if (response.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      var firstPageLink = body[0]['links'][0];
-      print(firstPageLink);
-      print('word:${body[0]['query']},link: ${firstPageLink}');
-      int screenWidth = context['screen']['availWidth'];
-      int screenHeight = context['screen']['availHeight'];
-      int windowWidth = screenWidth ~/ 2;
-      int windowHeight = screenHeight ~/ 2;
-      int windowLeft = (screenWidth - windowWidth) ~/ 2;
-      int windowTop = (screenHeight - windowHeight) ~/ 2;
-      context['chrome']['windows'].callMethod('create', [
-        JsObject.jsify({
-          'url': firstPageLink,
-          'width': windowWidth,
-          'height': windowHeight,
-          'left': windowLeft,
-          'top': windowTop,
-        }),
-        (JsObject window) {
-          int windowId = window['id'];
-          for (var i = 0; i < body.length; i++) {
-            // first page should be opened in a new window and return the window id.
-            for (var j = 0; j < body[i]['links'].length; j++) {
-              var link = body[i]['links'][j];
-              context['chrome']['tabs'].callMethod('create', [
-                JsObject.jsify({
-                  'windowId': windowId,
-                  'url': link,
-                })
-              ]);
-            }
-          }
-        },
-      ]);
-    } else {
-      print(response.statusCode);
-    }
-  }
-
-  void openWebPageTab(String url, int windowId) {
-    var options =
-        new JsObject.jsify({'url': url, 'active': false, 'windowId': windowId});
-    context['chrome']['tabs'].callMethod('create', [options]);
   }
 
   @override
@@ -192,7 +122,6 @@ class _KeywordViewState extends State<KeywordView> {
               ElevatedButton(
                   onPressed: () {
                     getWebsitesToSearch(_keywordInputController.text);
-                    //_loadPersonas(_keywordInputController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
