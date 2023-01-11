@@ -45,39 +45,45 @@ def extractInfoFromTextV3(entity_dict):
 
     for key in json_keys:
         value = entity_dict[key]
-        
 
-        if "unknown" not in value.lower():
-            value_arr = list(map(lambda x: x.strip(), value.split(",")))
+        # If value is a list, then we don't need to do anything
+        # If value is a string, then we need to split it by comma and make a list
+        if (type(value) == str):
+            if "unknown" not in value.lower():
+                value_arr = list(map(lambda x: x.strip(), value.split(",")))
+            else:
+                value_arr = []
+        else:
+            value_arr = value
 
-            if key == "Profession":
-                for val in value_arr:
-                    if "unknown" not in entity_dict["Location"].lower():
-                        queries.append(val + ' jobs in ' + entity_dict["Location"])
-                    else:
-                        queries.append(val + ' jobs')
-            elif key == "Movie Interests":
-                for val in value_arr:
-                    queries.append(val + ' letterboxd reviews')
-                    queries.append(val + ' film watch')
-            elif key == "Music Interests":
-                for val in value_arr:
-                    if "unknown" not in entity_dict["Location"].lower():
-                        queries.append(val + ' concerts in ' + entity_dict["Location"])
-                    else:
-                        queries.append(val + ' concerts')
-            elif key == "Sport Interests":
-                for val in value_arr:
-                    queries.append(val + ' match tickets')
-            elif key == "Hobby":
-                for val in value_arr:
-                    queries.append(val + ' events') 
-            elif key == "Nationality":
-                for val in value_arr:
-                    queries.append(val + ' food')
-            elif key == "Product":
-                for val in value_arr:
-                    queries.append(val + ' prices')
+        if key == "Profession":
+            for val in value_arr:
+                if "unknown" not in entity_dict["Location"].lower():
+                    queries.append(val + ' jobs in ' + entity_dict["Location"])
+                else:
+                    queries.append(val + ' jobs')
+        elif key == "Movie Interests":
+            for val in value_arr:
+                queries.append(val + ' letterboxd reviews')
+                queries.append(val + ' film watch')
+        elif key == "Music Interests":
+            for val in value_arr:
+                if "unknown" not in entity_dict["Location"].lower():
+                    queries.append(val + ' concerts in ' + entity_dict["Location"])
+                else:
+                    queries.append(val + ' concerts')
+        elif key == "Sport Interests":
+            for val in value_arr:
+                queries.append(val + ' match tickets')
+        elif key == "Hobby":
+            for val in value_arr:
+                queries.append(val + ' events') 
+        elif key == "Nationality":
+            for val in value_arr:
+                queries.append(val + ' food')
+        elif key == "Product":
+            for val in value_arr:
+                queries.append(val + ' prices')
     
     return queries
 
