@@ -91,7 +91,8 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                       fixedSize: const Size(160, 40),
                                       backgroundColor: const Color(0xffffead4)),
                                   onPressed: () async {
-                                    getWebsitesToSearchfromPersona(persona);
+                                    await getWebsitesToSearchfromPersona(
+                                        persona);
                                     Map<String, int> statistics =
                                         await getStatistics(persona)
                                             as Map<String, int>;
