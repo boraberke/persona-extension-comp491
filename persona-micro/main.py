@@ -61,7 +61,7 @@ def search_with_string(input :str):
     print("Triggerin extract information from text is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
-    result = findURLsByKeyword(queries,limit=4)
+    result = findURLsByKeyword(queries)
     print("Triggering findURLsByKeyword is done. Result: ", result)
 
     return result
@@ -76,7 +76,7 @@ def search_with_persona(persona: Persona):
     print("Triggerin extract information from persona is done: ", queries)
 
     print("Triggering findURLsByKeyword ")
-    result = findURLsByKeyword(queries,limit=4)
+    result = findURLsByKeyword(queries)
     print("Triggering findURLsByKeyword is done. Result: ", result)
     return result
 

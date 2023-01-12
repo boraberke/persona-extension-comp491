@@ -90,13 +90,17 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                               Radius.circular(10))),
                                       fixedSize: const Size(160, 40),
                                       backgroundColor: const Color(0xffffead4)),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     getWebsitesToSearchfromPersona(persona);
+                                    Map<String, int> statistics =
+                                        await getStatistics(persona)
+                                            as Map<String, int>;
                                     Navigator.push(
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const StatisticsView()));
+                                                StatisticsView(
+                                                    searchStats: statistics)));
                                   },
                                   child: Row(
                                       crossAxisAlignment:

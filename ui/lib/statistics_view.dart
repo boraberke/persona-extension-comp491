@@ -4,40 +4,29 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class StatisticsView extends StatefulWidget {
-  const StatisticsView({Key? key}) : super(key: key);
+  StatisticsView({super.key, required this.searchStats});
+
+  Map<String, int> searchStats;
 
   @override
   State<StatisticsView> createState() => _StatisticsViewState();
 }
 
 class _StatisticsViewState extends State<StatisticsView> {
-  late Map<String, int> _searchStats;
+  late Map<String, int> searchStats;
 
-  final Map<String, int> _searchStatsDemo = {
-    "Age": 5,
-    "Location": 10,
-    "Profession": 20,
-    "Gender": 15,
-    "Marital Status": 25,
-    "Education": 30,
-    "Income": 20,
-    "Book Interest": 5,
-    "Movies TV Interest": 25,
-    "Music Interest": 15,
-    "Sport Interest": 20,
-    "Hobby": 25,
+  Map<String, int> searchStatsCategorized = {
+    "Job": 0,
+    "Book": 0,
+    "Movie": 0,
+    "Music": 0,
+    "Sport": 0,
+    "Hobby": 0,
   };
 
   @override
   void initState() {
     super.initState();
-    _loadStats();
-
-  }
-
-  void _loadStats() async {
-    // TODO: Load Stats from Backend
-
   }
 
   List<Color> gradientColors = [
@@ -54,18 +43,52 @@ class _StatisticsViewState extends State<StatisticsView> {
       fontSize: 10,
     );
     Widget text;
+
     switch (value.toInt()) {
-      case 2:
-        text = const Text('Location', style: style);
+      case 0:
+        text = Text(
+          "Job",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
         break;
-      case 5:
-        text = const Text('Interests', style: style);
+      case 2:
+        text = Text(
+          "Book",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
+        break;
+      case 4:
+        text = Text(
+          "Movie",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
+        break;
+      case 6:
+        text = text = Text(
+          "Music",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
         break;
       case 8:
-        text = const Text('Products', style: style);
+        text = text = Text(
+          "Sport",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
+        break;
+      case 10:
+        text = text = Text(
+          "Hobby",
+          style: style,
+          overflow: TextOverflow.fade,
+        );
         break;
       default:
-        text = const Text('', style: style);
+        text = Text('', style: style);
         break;
     }
 
@@ -83,20 +106,23 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
     String text;
     switch (value.toInt()) {
-      case 2:
-        text = '2';
-        break;
-      case 4:
-        text = '4';
+      case 3:
+        text = '3';
         break;
       case 6:
         text = '6';
         break;
-      case 8:
-        text = '8';
+      case 9:
+        text = '9';
         break;
-      case 10:
-        text = '10';
+      case 12:
+        text = '12';
+        break;
+      case 15:
+        text = '15';
+        break;
+      case 18:
+        text = '18';
         break;
       default:
         return Container();
@@ -106,11 +132,52 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   LineChartData mainData() {
+    searchStatsCategorized = {
+      "Job": 0,
+      "Book": 0,
+      "Movie": 0,
+      "Music": 0,
+      "Sport": 0,
+      "Hobby": 0,
+    };
+
+    var keys = widget.searchStats.keys.toList();
+    var linkLengths = widget.searchStats.values.toList();
+    for (int i = 0; i < keys.length; i++) {
+      if (keys[i].contains("jobs")) {
+        searchStatsCategorized["Job"] =
+            (searchStatsCategorized["Job"]! + linkLengths[i]);
+      } else if (keys[i].contains("book")) {
+        searchStatsCategorized["Book"] =
+            (searchStatsCategorized["Book"]! + linkLengths[i]);
+      } else if (keys[i].contains("letterboxd") ||
+          keys[i].contains("film watch")) {
+        searchStatsCategorized["Movie"] =
+            (searchStatsCategorized["Movie"]! + linkLengths[i]);
+      } else if (keys[i].contains("concerts")) {
+        searchStatsCategorized["Music"] =
+            (searchStatsCategorized["Music"]! + linkLengths[i]);
+      } else if (keys[i].contains("match tickets")) {
+        searchStatsCategorized["Sport"] =
+            (searchStatsCategorized["Sport"]! + linkLengths[i]);
+      } else if (keys[i].contains("events")) {
+        searchStatsCategorized["Hobby"] =
+            (searchStatsCategorized["Hobby"]! + linkLengths[i]);
+      }
+    }
+
+    var values = searchStatsCategorized.values.toList();
+
+    List<FlSpot> spots = [];
+    for (int i = 0; i < values.length; i++) {
+      spots.add(FlSpot(i.toDouble() * 2, values[i].toDouble()));
+    }
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
-        horizontalInterval: 2,
+        horizontalInterval: 3,
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
@@ -144,7 +211,7 @@ class _StatisticsViewState extends State<StatisticsView> {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 2,
+            interval: 3,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
@@ -157,18 +224,10 @@ class _StatisticsViewState extends State<StatisticsView> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 12,
+      maxY: 18,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: spots,
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
@@ -192,13 +251,23 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   LineChartData avgData() {
+    int sum = 0;
+
+    var values = searchStatsCategorized.values.toList();
+
+    for (int i = 0; i < values.length; i++) {
+      sum = sum + values[i];
+    }
+
+    double average = sum / values.length;
+
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
         verticalInterval: 1,
-        horizontalInterval: 2,
+        horizontalInterval: 3,
         getDrawingVerticalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
@@ -227,7 +296,7 @@ class _StatisticsViewState extends State<StatisticsView> {
             showTitles: true,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
-            interval: 2,
+            interval: 3,
           ),
         ),
         topTitles: AxisTitles(
@@ -244,17 +313,16 @@ class _StatisticsViewState extends State<StatisticsView> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 12,
+      maxY: 18,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
+          spots: [
+            FlSpot(0, average),
+            FlSpot(2, average),
+            FlSpot(4, average),
+            FlSpot(6, average),
+            FlSpot(8, average),
+            FlSpot(10, average),
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -288,7 +356,6 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     // TODO: Add the UI code here
@@ -313,8 +380,7 @@ class _StatisticsViewState extends State<StatisticsView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
-                    'assets/images/statistics-icon-30x22.png'),
+                Image.asset('assets/images/statistics-icon-30x22.png'),
                 const Padding(padding: EdgeInsets.only(left: 10)),
                 Text(
                   'Statistics',
@@ -338,15 +404,15 @@ class _StatisticsViewState extends State<StatisticsView> {
                       'Breakdown of the Latest Search',
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            color: Color(0xff87633e),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            decoration: TextDecoration.underline,
-                          )),
+                        color: Color(0xff87633e),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      )),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left:10, bottom: 10),
+                    padding: const EdgeInsets.only(left: 10, bottom: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -355,10 +421,10 @@ class _StatisticsViewState extends State<StatisticsView> {
                           'Websites Visited For Each Attribute',
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
-                                color: Color(0xff87633e),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              )),
+                            color: Color(0xff87633e),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          )),
                         ),
                       ],
                     ),
@@ -366,48 +432,50 @@ class _StatisticsViewState extends State<StatisticsView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 28, right: 18),
                     child: Stack(
-                        children: <Widget> [
-                            AspectRatio(
-                                aspectRatio: 1.70,
-                                child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(18),
-                                        ),
-                                        color: Color(0xff232d37),
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 18,
-                                            left: 12,
-                                            top: 24,
-                                            bottom: 12,
-                                        ),
-                                        child: LineChart(
-                                            showAvg ? avgData() : mainData(),
-                                        ),
-                                    ),
-                                ),
+                      children: <Widget>[
+                        AspectRatio(
+                          aspectRatio: 1.70,
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(18),
+                              ),
+                              color: Color(0xff232d37),
                             ),
-                            SizedBox(
-                                width: 60,
-                                height: 34,
-                                child: TextButton(
-                                    onPressed: () {
-                                        setState(() {
-                                            showAvg = !showAvg;
-                                        });
-                                    },
-                                    child: Text(
-                                        'avg',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                                        ),
-                                    ),
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 18,
+                                left: 12,
+                                top: 24,
+                                bottom: 12,
+                              ),
+                              child: LineChart(
+                                showAvg ? avgData() : mainData(),
+                              ),
                             ),
-                        ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60,
+                          height: 34,
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showAvg = !showAvg;
+                              });
+                            },
+                            child: Text(
+                              'avg',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: showAvg
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

@@ -1,3 +1,4 @@
+from random import randint
 from bs4 import BeautifulSoup
 import requests
 
@@ -152,12 +153,13 @@ def extractInfoFromSavedPersona(saved_persona):
     return queries     
             
 
-def findURLsByKeyword(queries, limit=None):
+def findURLsByKeyword(queries):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36",
     }
 
     results = []
+    limit = 0
 
     if len(queries) <= 3:
         limit = None
@@ -177,9 +179,14 @@ def findURLsByKeyword(queries, limit=None):
         all_links = soup.select(".yuRUbf a")
 
         if limit is not None:   
-            if len(all_links) > limit:
+            if len(all_links) >= 2:
+                limit = randint(2, len(all_links))
+                if limit > 6:
+                    limit = 6
                 all_links = all_links[:limit]
-        
+            else:
+                all_links = all_links[:len(all_links)]
+
         for link in all_links:
             resulted_link = link.get('href')
             links.append(resulted_link)

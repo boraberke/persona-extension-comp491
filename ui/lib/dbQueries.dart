@@ -47,6 +47,37 @@ Future<String> deletePersonaFromList(String accessID, String name) async {
   }
 }
 
+// Future<Map<String, dynamic>> getQueries(Persona persona) async {
+//   var uri = 'https://370sl8.deta.dev/search-persona';
+//   var headers = {'Content-Type': 'application/json'};
+//   var response = await http.post(Uri.parse(uri),
+//       body: jsonEncode(persona), headers: headers);
+//   if (response.statusCode == 200) {
+//     Map<String, dynamic> body = jsonDecode(response.body);
+//     return body;
+//   } else {
+//     throw Exception('Failed to get queries.');
+//   }
+// }
+
+Future<Map<String, int>> getStatistics(Persona persona) async {
+  var uri = 'https://370sl8.deta.dev/search-persona';
+  var headers = {'Content-Type': 'application/json'};
+  var response = await http.post(Uri.parse(uri),
+      body: jsonEncode(persona), headers: headers);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> body = jsonDecode(response.body);
+    Map<String, int> statistics = {};
+
+    for (var i = 0; i < body.length; i++) {
+      statistics[body[i]['query']] = body[i]['links'].length as int;
+    }
+    return statistics;
+  } else {
+    throw Exception('Failed to get statistics.');
+  }
+}
+
 void getWebsitesToSearchfromPersona(Persona persona) async {
   var uri = 'https://370sl8.deta.dev/search-persona';
   var headers = {'Content-Type': 'application/json'};
