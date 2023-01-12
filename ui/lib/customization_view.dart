@@ -190,6 +190,7 @@ class _CustomizationViewState extends State<CustomizationView> {
                                 controller: _nameInputController,
                                 textAlign: TextAlign.start,
                                 keyboardType: TextInputType.text,
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))],
                                 maxLines: 1,
                                 placeholder: "Name your persona",
                                 placeholderStyle: const TextStyle(

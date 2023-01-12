@@ -114,15 +114,23 @@ class _SavedPersonasViewState extends State<SavedPersonasView> {
                                           color: Color(0xff87633e),
                                           size: 20.0,
                                         ),
-                                        Text(
-                                          persona.name,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                            color: Color(0xff87633e),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15,
-                                          )),
+                                        Expanded(
+                                          child: Text(
+                                            persona.name,
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                              color: Color(0xff87633e),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            )),
+                                            maxLines: 1,
+                                            textAlign: TextAlign.end,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
+                                        const Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 5.0)),
                                       ])),
                               const Padding(
                                   padding: EdgeInsets.only(left: 10.0)),

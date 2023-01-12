@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:ui/customization_view.dart';
@@ -69,6 +70,7 @@ class _HanselViewState extends State<HanselView> {
                         controller: _accessIdInputController,
                         textAlign: TextAlign.start,
                         keyboardType: TextInputType.text,
+                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))],
                         maxLines: 1,
                         placeholder: "access_id",
                         placeholderStyle: const TextStyle(
